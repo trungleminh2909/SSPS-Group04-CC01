@@ -107,14 +107,14 @@ For the administrators of the system, the role management and system oversight t
 ## Task 1.3
 ### Use-case Diagram for the Whole System
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="Images/Figure 1.jpg">
-  <img src="Images/Figure 1.jpg" alt="Class" width="600" />
+  <source media="(prefers-color-scheme: dark)" srcset="Images/Use-case Diagram/Whole-System.jpg">
+  <img src="Images/Use-case Diagram/Whole-System.jpg" alt="Class" width="600" />
 </picture>
 
 ### Use-case Diagram for Printing Service Module
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="Images/Figure 2.jpg">
-  <img src="Images/Figure 2.jpg" alt="Class" width="600" />
+  <source media="(prefers-color-scheme: dark)" srcset="Images/Use-case Diagram/Whole-System.jpg">
+  <img src="Images/Use-case Diagram/Whole-System.jpg" alt="Class" width="600" />
 </picture>
 
 ### The Details of Use-cases in Printing Service Module
