@@ -1,4 +1,18 @@
 # Task 1: Requirement elicitation
+## Table of contents
+- [Task 1: Requirement elicitation](#task-1-requirement-elicitation)
+  - [Table of contents](#table-of-contents)
+  - [Task 1.1](#task-11)
+    - [Domain Context](#domain-context)
+    - [Stakeholders and Needs](#stakeholders-and-needs)
+    - [Benifits of the system](#benifits-of-the-system)
+  - [Task 1.2](#task-12)
+    - [Functional Requirements](#functional-requirements)
+    - [Non - Functional Requirements](#non---functional-requirements)
+  - [Task 1.3](#task-13)
+    - [Use-case Diagram for the Whole System](#use-case-diagram-for-the-whole-system)
+    - [Use-case Diagram for Printing Service Module](#use-case-diagram-for-printing-service-module)
+    - [The Details of Use-cases in Printing Service Module](#the-details-of-use-cases-in-printing-service-module)
 ## Task 1.1
 ### Domain Context
 The Student Smart Printing Service (SSPS) is a system designed to serve the document printing process of students at Ho Chi Minh City University of Technology (HCMUT) campuses. Catering to students across the Ly Thuong Kiet and Di An campuses, SSPS provides a streamlined, user-friendly, and cost-effective printing solution. This optimized system enhances efficiency and convenience, allowing students to focus more on their studies while effortlessly managing their printing needs. Additionally, the SSPS also includes tools for the Student Printing Service Officer (SPSO) to effectively manage printers, file types, and the allocation of A4 paper as printing currency for each student at each semester. This functionality promotes efficient resource utilization and ensures a smooth management process for the printing services at the university.
