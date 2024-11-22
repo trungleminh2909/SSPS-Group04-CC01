@@ -92,10 +92,10 @@ For the administrators of the system, the role management and system oversight t
 
 ## Task 1.3
 ### Use-case Diagram for the Whole System
-![Figure 1: Use-case Diagram for the Whole System ](https://drive.google.com/drive/folders/1y5V7BKAn70Uz4dTJxEpCziZNqWTuCSXW)
+![Figure 1: Use-case Diagram for the Whole System ](Documents/Images/Figure 1.jpg)
 
 ### Use-case Diagram for Printing Service Module
-![Figure 2: Use-case Diagram for Printing Service Module ](https://drive.google.com/file/d/1QlKggT9mMcA1GKgiH4fi7OF0jNBjHWAi/view?usp=drive_link)
+![Figure 2: Use-case Diagram for Printing Service Module ](Documents/Images/Figure 2.jpg)
 
 ### The Details of Use-cases in Printing Service Module
 **_1. Use-case View account information_** 
