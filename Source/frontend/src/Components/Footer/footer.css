@@ -1,0 +1,55 @@
+footer {
+    background-color: #030391;
+    color: #ffffff;
+    height: 100px;
+    width: 100%;
+    padding: 10px;
+    margin-top: auto;
+}
+
+.footer-info {
+    text-align: left;
+    width: 50%;
+    float: left;
+}
+
+.footer-uniLogo {
+    width: 1.2cm;
+    margin-right: 0.5cm;
+    margin-bottom: 0cm;
+    margin-top: 0.25cm;
+    float: left;
+}
+i {
+    color: #ffffff;
+    width: 0px;
+}
+
+.footer-uniName {
+    text-align: left;
+    margin: 0;
+    margin-top: 10px;
+    display: inline-block;
+}
+.footer-contact {
+    width: 50%;
+    float: right;
+}
+
+.footer-uniAddress {
+    margin: 0;
+}
+
+.footer-link {
+    text-decoration: none;
+    color: #eeeeee;
+    width: 3cm;
+    padding: 10px;
+}
+
+.footer-link-container {
+    padding-top: 10px;
+    width: 100%;
+    text-align: right;
+    
+}
