@@ -13,9 +13,10 @@ public class Staff {
     String email;
     String address;
     String avatar;
+    String role;
 
     public Staff(String id, String name, String username, String password, String email,
-            String address, String avatar) {
+            String address, String avatar, String role) {
         this.name = name;
         this.id = id;
         this.username = username;
@@ -23,6 +24,7 @@ public class Staff {
         this.email = email;
         this.address = address;
         this.avatar = avatar;
+        this.role = role;
     }
 
     public String getName() {
@@ -81,11 +83,19 @@ public class Staff {
         this.avatar = avatar;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return " [Name=" + name + ", ID=" + id + ", username=" + username
                 + ", password=" + password + ", Email=" + email + ", Address=" + address
-                + ", avatar=" + avatar + "]";
+                + ", avatar=" + avatar + ", role=" + role + "]";
     }
 
 }

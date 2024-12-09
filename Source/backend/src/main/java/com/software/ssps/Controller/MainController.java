@@ -6,20 +6,22 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.software.ssps.Entity.Printer;
 import com.software.ssps.Entity.Staff;
 import com.software.ssps.Entity.Student;
 import com.software.ssps.Entity.paymentHistory;
 import com.software.ssps.Entity.printHistory;
+import com.software.ssps.Entity.systemHistory;
 
 @Controller
 public class MainController {
@@ -29,11 +31,14 @@ public class MainController {
     private List<paymentHistory> paymentHistory;
     private List<printHistory> printHistory;
     private List<Staff> staffList;
+    private List<Printer> printerList;
+    private List<systemHistory> systemHistories;
 
     // Write initializer in the Main Controller constructor
     public MainController() {
         studentList = new ArrayList<>();
         staffList = new ArrayList<>();
+        printerList = new ArrayList<>();
         Student student1 = new Student(
                 "Nguyen Van A", // studentName
                 "2252123", // studentID
@@ -56,13 +61,20 @@ public class MainController {
                 100, // pageNumber
                 new ArrayList<>() // uploadedFiles (empty list for now)
         );
-        Staff staff1 = new Staff("Le Hoang", "123456", "hoang", "123456", "hoang@hcmut.edu.vn", "HCM", "hoang.png");
+        Staff staff1 = new Staff("123456", "Le Hoang", "hoang", "123456", "hoang@hcmut.edu.vn", "HCM", "hoang.png",
+                "Admin");
         studentList.add(student1);
         studentList.add(student2);
         staffList.add(staff1);
+        printerList.add(new Printer("P001", "Canon", "Tòa A4", "active"));
+        printerList.add(new Printer("P002", "HP", "Tòa B2", "active"));
+        printerList.add(new Printer("P003", "Epson", "Tòa C3", "inactive"));
+        printerList.add(new Printer("P004", "Brother", "Tòa A1", "active"));
+        printerList.add(new Printer("P005", "Samsung", "Tòa B5", "inactive"));
 
         paymentHistory = new ArrayList<>();
         printHistory = new ArrayList<>();
+        systemHistories = new ArrayList<>();
     }
 
     //////////////////// .......Hard coded data part.......////////////////////
@@ -167,6 +179,7 @@ public class MainController {
         return "redirect:/ssps/admin/accountList";
     }
 
+    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping("/ssps/admin/staffInfo/{id}")
     @ResponseBody
     public Staff staffInfo(@PathVariable String id, Model model) {
@@ -205,5 +218,43 @@ public class MainController {
         return "redirect:/ssps/admin/accountList";
     }
 
+    // #endregion
+
+    // #region printer
+
+    @CrossOrigin(origins = "http://localhost:5173")
+    @GetMapping("/ssps/spso/printerList")
+    @ResponseBody
+    public List<Printer> printerList() {
+        return printerList;
+    }
+
+    @CrossOrigin(origins = "http://localhost:5173")
+    @PostMapping("/ssps/spso/addPrinter")
+    @ResponseBody
+    public Printer addPrinter(@RequestBody Printer printer) {
+        printerList.add(printer);
+        return printer;
+    }
+
+    @CrossOrigin(origins = "http://localhost:5173")
+    @PutMapping("/ssps/spso/stopPrinter/{printerID}")
+    @ResponseBody
+    public String stopPrinter(@PathVariable String printerID) {
+        printerList.stream().filter(p -> p.getPrinterID().equals(printerID)).findFirst().ifPresent(printer -> {
+            printer.setStatus("inactive");
+        });
+        return "success";
+    }
+
+    @CrossOrigin(origins = "http://localhost:5173")
+    @PutMapping("/ssps/spso/startPrinter/{printerID}")
+    @ResponseBody
+    public String startPrinter(@PathVariable String printerID) {
+        printerList.stream().filter(p -> p.getPrinterID().equals(printerID)).findFirst().ifPresent(printer -> {
+            printer.setStatus("active");
+        });
+        return "success";
+    }
     // #endregion
 }
