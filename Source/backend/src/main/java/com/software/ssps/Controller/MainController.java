@@ -2,14 +2,21 @@ package com.software.ssps.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.software.ssps.Entity.Staff;
 import com.software.ssps.Entity.Student;
 import com.software.ssps.Entity.paymentHistory;
 import com.software.ssps.Entity.printHistory;
@@ -21,10 +28,12 @@ public class MainController {
     private List<Student> studentList;
     private List<paymentHistory> paymentHistory;
     private List<printHistory> printHistory;
+    private List<Staff> staffList;
 
     // Write initializer in the Main Controller constructor
     public MainController() {
         studentList = new ArrayList<>();
+        staffList = new ArrayList<>();
         Student student1 = new Student(
                 "Nguyen Van A", // studentName
                 "2252123", // studentID
@@ -47,14 +56,18 @@ public class MainController {
                 100, // pageNumber
                 new ArrayList<>() // uploadedFiles (empty list for now)
         );
+        Staff staff1 = new Staff("Le Hoang", "123456", "hoang", "123456", "hoang@hcmut.edu.vn", "HCM", "hoang.png");
         studentList.add(student1);
         studentList.add(student2);
+        staffList.add(staff1);
 
         paymentHistory = new ArrayList<>();
         printHistory = new ArrayList<>();
     }
 
     //////////////////// .......Hard coded data part.......////////////////////
+
+    // #region student
     @GetMapping("/ssps/homepage")
     public String mainpage() {
         return "homepage";
@@ -125,4 +138,72 @@ public class MainController {
         return "studentPayment";
     }
 
+    // #endregion
+
+    // #region Admin
+    @GetMapping("/ssps/admin/accountList")
+    public String accountList() {
+        return "accountList";
+    }
+
+    @GetMapping("/ssps/admin/accountList/staffAccountList")
+    @ResponseBody
+    public List<Staff> staffAccountList() {
+        return staffList;
+    }
+
+    @GetMapping("/ssps/admin/accountList/studentAccountList")
+    @ResponseBody
+    public List<Student> studentAccountList() {
+        return studentList;
+    }
+
+    @PostMapping("/ssps/admin/addStaff")
+    @ResponseBody
+    public String addStaff(@RequestBody Staff staff) {
+        // Staff newStaff = new Staff(name, id, username, password, email, address,
+        // avatar);
+        staffList.add(staff);
+        return "redirect:/ssps/admin/accountList";
+    }
+
+    @GetMapping("/ssps/admin/staffInfo/{id}")
+    @ResponseBody
+    public Staff staffInfo(@PathVariable String id, Model model) {
+        Optional<Staff> staff = staffList.stream().filter(a -> a.getID().equals(id)).findFirst();
+        if (staff.isPresent()) {
+            return staff.get();
+        } else {
+            return null;
+        }
+    }
+
+    @PutMapping("/ssps/admin/updateStaff/{id}")
+    @ResponseBody
+    public String updateStaff(
+            @PathVariable String id,
+            @RequestBody Staff updateStaff) {
+        staffList.stream().filter(a -> a.getID().equals(id)).findFirst().ifPresent(staff -> {
+            staff.setName(updateStaff.getName());
+            staff.setUsername(updateStaff.getUsername());
+            staff.setPassword(updateStaff.getPassword());
+            staff.setEmail(updateStaff.getEmail());
+            staff.setAddress(updateStaff.getAddress());
+            staff.setAvatar(updateStaff.getAvatar());
+        });
+        return "redirect:/ssps/admin/accountList";
+    }
+
+    @DeleteMapping("/ssps/admin/deleteStaff/{id}")
+    @ResponseBody
+    public String deleteStaff(@PathVariable String id) {
+        Optional<Staff> staff = staffList.stream().filter(a -> a.getID().equals(id)).findFirst();
+        if (staff.isPresent()) {
+            staffList.removeIf(a -> a.getID().equals(id));
+            return "success";
+        }
+        return "redirect:/ssps/admin/accountList";
+    }
+
+    // #endregion
 }
