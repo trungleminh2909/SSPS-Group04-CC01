@@ -1,6 +1,7 @@
 package com.software.ssps.Controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.software.ssps.Entity.Printer;
 import com.software.ssps.Entity.Staff;
 import com.software.ssps.Entity.Student;
+import com.software.ssps.Entity.SystemSetting;
 import com.software.ssps.Entity.paymentHistory;
 import com.software.ssps.Entity.printHistory;
 import com.software.ssps.Entity.systemHistory;
@@ -33,6 +35,7 @@ public class MainController {
     private List<Staff> staffList;
     private List<Printer> printerList;
     private List<systemHistory> systemHistories;
+    private SystemSetting systemSetting;
 
     // Write initializer in the Main Controller constructor
     public MainController() {
@@ -76,6 +79,7 @@ public class MainController {
         printerList.add(new Printer("P004", "Brother", "Tòa A1", "active"));
         printerList.add(new Printer("P005", "Samsung", "Tòa B5", "inactive"));
 
+        systemSetting = new SystemSetting("1", 30, new Date(), true, true, false, true, false, true, true);
         paymentHistory = new ArrayList<>();
         printHistory = new ArrayList<>();
         systemHistories = new ArrayList<>();
@@ -277,6 +281,21 @@ public class MainController {
             return "success";
         }
         return "redirect:/ssps/admin/accountList";
+    }
+
+    @CrossOrigin(origins = "http://localhost:5173")
+    @ResponseBody
+    @GetMapping("/ssps/spso/getSetting")
+    public SystemSetting getSetting() {
+        return systemSetting;
+    }
+
+    @CrossOrigin(origins = "http://localhost:5173")
+    @ResponseBody
+    @PutMapping("/ssps/spso/changeSystem")
+    public String changeSystem(@RequestBody SystemSetting newSetting) {
+        systemSetting = newSetting;
+        return "success";
     }
 
     // #endregion
