@@ -66,6 +66,10 @@ public class MainController {
         studentList.add(student1);
         studentList.add(student2);
         staffList.add(staff1);
+        staffList.add(new Staff("646551", "John Doe", "johndoe", "password123", "john@example.com", "123 Main St",
+                "avatar1.png", "SPSO"));
+        staffList.add(new Staff("468465", "Jane Smith", "janesmith", "password456", "jane@example.com", "456 Elm St",
+                "avatar2.png", "SPSO"));
         printerList.add(new Printer("P001", "Canon", "Tòa A4", "active"));
         printerList.add(new Printer("P002", "HP", "Tòa B2", "active"));
         printerList.add(new Printer("P003", "Epson", "Tòa C3", "inactive"));
@@ -130,10 +134,10 @@ public class MainController {
         return "studentHome";
     }
 
-    @GetMapping("/ssps/{studentID}/info")
-    public String studentInfo(@RequestParam String param) {
-        return "studentInfo";
-    }
+    // @GetMapping("/ssps/{studentID}/info")
+    // public String studentInfo(@RequestParam String param) {
+    // return "studentInfo";
+    // }
 
     @GetMapping("/ssps/{studentID}/print")
     public String print() {
@@ -158,18 +162,21 @@ public class MainController {
         return "accountList";
     }
 
-    @GetMapping("/ssps/admin/accountList/staffAccountList")
+    @CrossOrigin(origins = "http://localhost:5173")
+    @GetMapping("/ssps/admin/staffAccountList")
     @ResponseBody
     public List<Staff> staffAccountList() {
         return staffList;
     }
 
-    @GetMapping("/ssps/admin/accountList/studentAccountList")
+    @CrossOrigin(origins = "http://localhost:5173")
+    @GetMapping("/ssps/admin/studentAccountList")
     @ResponseBody
     public List<Student> studentAccountList() {
         return studentList;
     }
 
+    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/ssps/admin/addStaff")
     @ResponseBody
     public String addStaff(@RequestBody Staff staff) {
@@ -180,9 +187,19 @@ public class MainController {
     }
 
     @CrossOrigin(origins = "http://localhost:5173")
+    @PostMapping("/ssps/admin/addStudent")
+    @ResponseBody
+    public String addStudent(@RequestBody Student student) {
+        // Staff newStaff = new Staff(name, id, username, password, email, address,
+        // avatar);
+        studentList.add(student);
+        return "redirect:/ssps/admin/accountList";
+    }
+
+    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping("/ssps/admin/staffInfo/{id}")
     @ResponseBody
-    public Staff staffInfo(@PathVariable String id, Model model) {
+    public Staff staffInfo(@PathVariable String id) {
         Optional<Staff> staff = staffList.stream().filter(a -> a.getID().equals(id)).findFirst();
         if (staff.isPresent()) {
             return staff.get();
@@ -191,12 +208,24 @@ public class MainController {
         }
     }
 
-    @PutMapping("/ssps/admin/updateStaff/{id}")
+    @CrossOrigin(origins = "http://localhost:5173")
+    @GetMapping("/ssps/admin/studentInfo/{id}")
+    @ResponseBody
+    public Student studentInfo(@PathVariable String id) {
+        Optional<Student> student = studentList.stream().filter(a -> a.getStudentID().equals(id)).findFirst();
+        if (student.isPresent()) {
+            return student.get();
+        } else {
+            return null;
+        }
+    }
+
+    @CrossOrigin(origins = "http://localhost:5173")
+    @PutMapping("/ssps/admin/updateStaff")
     @ResponseBody
     public String updateStaff(
-            @PathVariable String id,
             @RequestBody Staff updateStaff) {
-        staffList.stream().filter(a -> a.getID().equals(id)).findFirst().ifPresent(staff -> {
+        staffList.stream().filter(a -> a.getID().equals(updateStaff.getID())).findFirst().ifPresent(staff -> {
             staff.setName(updateStaff.getName());
             staff.setUsername(updateStaff.getUsername());
             staff.setPassword(updateStaff.getPassword());
@@ -207,12 +236,44 @@ public class MainController {
         return "redirect:/ssps/admin/accountList";
     }
 
+    @CrossOrigin(origins = "http://localhost:5173")
+    @PutMapping("/ssps/admin/updateStudent")
+    @ResponseBody
+    public String updateStudent(
+            @RequestBody Student updateStudent) {
+
+        studentList.stream().filter(a -> a.getStudentID().equals(updateStudent.getStudentID())).findFirst()
+                .ifPresent(student -> {
+                    student.setStudentName(updateStudent.getStudentName());
+                    student.setUsername(updateStudent.getUsername());
+                    student.setPassword(updateStudent.getPassword());
+                    student.setStudentEmail(updateStudent.getStudentEmail());
+                    student.setStudentAddress(updateStudent.getStudentAddress());
+                    student.setAvatar(updateStudent.getAvatar());
+                    student.setPageNumber(updateStudent.getPageNumber());
+                });
+        return "redirect:/ssps/admin/accountList";
+    }
+
+    @CrossOrigin(origins = "http://localhost:5173")
     @DeleteMapping("/ssps/admin/deleteStaff/{id}")
     @ResponseBody
     public String deleteStaff(@PathVariable String id) {
         Optional<Staff> staff = staffList.stream().filter(a -> a.getID().equals(id)).findFirst();
         if (staff.isPresent()) {
             staffList.removeIf(a -> a.getID().equals(id));
+            return "success";
+        }
+        return "redirect:/ssps/admin/accountList";
+    }
+
+    @CrossOrigin(origins = "http://localhost:5173")
+    @DeleteMapping("/ssps/admin/deleteStudent/{id}")
+    @ResponseBody
+    public String deleteStudent(@PathVariable String id) {
+        Optional<Student> student = studentList.stream().filter(a -> a.getStudentID().equals(id)).findFirst();
+        if (student.isPresent()) {
+            studentList.removeIf(a -> a.getStudentID().equals(id));
             return "success";
         }
         return "redirect:/ssps/admin/accountList";
@@ -257,4 +318,5 @@ public class MainController {
         return "success";
     }
     // #endregion
+
 }

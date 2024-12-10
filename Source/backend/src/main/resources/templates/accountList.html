@@ -16,7 +16,7 @@
 
     <script>
         async function fetchAdmins() {
-            const response = await fetch('/ssps/admin/accountList/staffAccountList');
+            const response = await fetch('/ssps/admin/staffAccountList');
             const adminList = await response.json();
             const adminListElement = document.getElementById('staffList');
 
@@ -28,7 +28,7 @@
         }
 
         async function fetchStudents() {
-            const response = await fetch('/ssps/admin/accountList/studentAccountList');
+            const response = await fetch('/ssps/admin/studentAccountList');
             const studentList = await response.json();
             const studentListElement = document.getElementById('studentList');
 

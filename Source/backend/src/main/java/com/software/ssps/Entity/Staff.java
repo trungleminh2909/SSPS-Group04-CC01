@@ -93,7 +93,7 @@ public class Staff {
 
     @Override
     public String toString() {
-        return " [Name=" + name + ", ID=" + id + ", username=" + username
+        return " Staff [Name=" + name + ", ID=" + id + ", username=" + username
                 + ", password=" + password + ", Email=" + email + ", Address=" + address
                 + ", avatar=" + avatar + ", role=" + role + "]";
     }
