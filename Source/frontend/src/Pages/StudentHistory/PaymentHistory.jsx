@@ -16,8 +16,7 @@ function PaymentHistory() {
   
   const [startDate, setStartDate] = useState(getCurrentDate);
   const [endDate, setEndDate] = useState(getCurrentDate);
-  const [paymentHistoryData, setPaymentHistoryData] = useState([]);
-  const [filteredPaymentHistory, setFilteredPaymentHistory] = useState(paymentHistoryData);
+  const [filteredPaymentHistory, setFilteredPaymentHistory] = useState([]);
   
 
   const handleSubmit = async () => {
@@ -37,7 +36,14 @@ function PaymentHistory() {
       if (response.ok) {
         const data = await response.json();
         if (data.status === "success") {
-          setPaymentHistoryData(data.paymentHistory);
+          // setPaymentHistoryData(data.paymentHistory);
+          const filteredData = data.paymentHistory.filter((item) => {
+            const paymentDate = new Date(item.paymentDate);
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+            return paymentDate >= start && paymentDate <= end;
+          });
+          setFilteredPaymentHistory(filteredData);
         }
         else {
           alert("No student found")
@@ -56,20 +62,20 @@ function PaymentHistory() {
 
 
 
-  const handleFilter = () => {
-    console.log(paymentHistoryData)
-    const filteredData = paymentHistoryData.filter((item) => {
-      const paymentDate = new Date(item.paymentDate);
-      const start = new Date(startDate);
-      const end = new Date(endDate);
-      console.log(paymentDate)
-      console.log(start)
-      console.log(end)
-      return paymentDate >= start && paymentDate <= end;
-    });
-    console.log(filteredData)
-    setFilteredPaymentHistory(filteredData);
-  };
+  // const handleFilter = () => {
+  //   console.log(paymentHistoryData)
+  //   const filteredData = paymentHistoryData.filter((item) => {
+  //     const paymentDate = new Date(item.paymentDate);
+  //     const start = new Date(startDate);
+  //     const end = new Date(endDate);
+  //     console.log(paymentDate)
+  //     console.log(start)
+  //     console.log(end)
+  //     return paymentDate >= start && paymentDate <= end;
+  //   });
+  //   console.log(filteredData)
+  //   setFilteredPaymentHistory(filteredData);
+  // };
   
   useEffect(() => {
     handleSubmit();
@@ -111,9 +117,7 @@ function PaymentHistory() {
           onChange={(e) => setEndDate(e.target.value)} 
           id="history-end-date"
         />
-        <button onClick={() => {
-          handleFilter();
-        }}>Lọc</button>
+        <button onClick={handleSubmit}>Lọc</button>
       </div>
 
       {/* Bảng lịch sử in */}

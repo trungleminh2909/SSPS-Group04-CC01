@@ -27,9 +27,6 @@ function NavBar() {
   // State for notifications
   const [notifications, setNotifications] = useState(5); // Example: 5 notifications
   const isLoggedIn = window.sessionStorage.getItem("isLoggedIn")
-  // console.log(isLoggedIn)
-  console.log(isLoggedIn)
-  console.log(window.sessionStorage.getItem("role"))
   if (isLoggedIn) {
     if (window.sessionStorage.getItem("role") === "HCMUT") {
       return (
@@ -93,11 +90,11 @@ function NavBar() {
     {/* Navigation links */}
     <ul className="nav-links">
       <li className="nav-item"><a href="/">Trang chủ</a></li>
-      <li className="nav-item"><a href="/Student/Print/1">In tài liệu</a></li>
-      <li className="nav-item"><a href="/Student/BuyPages/1">Mua trang in</a></li>
-      <li className="nav-item"><a href="/Student/History">Lịch sử</a></li>
+      <li className="nav-item"><a href="/">In tài liệu</a></li>
+      <li className="nav-item"><a href="/">Mua trang in</a></li>
+      <li className="nav-item"><a href="/">Lịch sử</a></li>
     </ul> 
-    <a href="/Login">Đăng nhập</a>;
+    <a href="/Login">Đăng nhập</a>
     </nav>
   );
 }

@@ -15,8 +15,7 @@ function PrintHistory() {
   
   const [startDate, setStartDate] = useState(getCurrentDate);
   const [endDate, setEndDate] = useState(getCurrentDate);
-  const [printHistoryData, setPrintHistoryData] = useState([]);
-  const [filteredPrintHistory, setFilteredPrintHistory] = useState(printHistoryData);
+  const [filteredPrintHistory, setFilteredPrintHistory] = useState([]);
   
   const handleSubmit = async () => {
     const payload = {
@@ -31,12 +30,18 @@ function PrintHistory() {
         },
         body: JSON.stringify(payload),
       });
-    
+
       if (response.ok) {
         const data = await response.json();
         if (data.status === "success") {
-          setPrintHistoryData(data.printHistory);
           console.log(data.printHistory)
+          const filteredData = data.printHistory.filter((item) => {
+            const printDate = new Date(item.printDate);
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+            return printDate >= start && printDate <= end;
+          });
+          setFilteredPrintHistory(filteredData);
         }
         else {
           alert("No student found")
@@ -50,16 +55,6 @@ function PrintHistory() {
       console.log(error)
     }
   }
-
-  const handleFilter = () => {
-    const filteredData = printHistoryData.filter((item) => {
-      const printDate = new Date(item.printDate);
-      const start = new Date(startDate);
-      const end = new Date(endDate);
-      return printDate >= start && printDate <= end;
-    });
-    setFilteredPrintHistory(filteredData);
-  };
   
   useEffect(() => {
     handleSubmit();
@@ -101,7 +96,7 @@ function PrintHistory() {
           onChange={(e) => setEndDate(e.target.value)} 
           id="history-end-date"
         />
-        <button onClick={handleFilter}>Lọc</button>
+        <button onClick={handleSubmit}>Lọc</button>
       </div>
 
       {/* Bảng lịch sử in */}
