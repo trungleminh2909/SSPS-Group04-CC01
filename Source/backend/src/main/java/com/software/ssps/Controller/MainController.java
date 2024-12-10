@@ -1,4 +1,5 @@
 package com.software.ssps.Controller;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -62,7 +63,7 @@ public class MainController {
                 "student2@hcmut.edu.vn", // studentEmail
                 "Ho Chi Minh", // studentAddress
                 "avatar2.png", // avatar
-                100, // pageNumber
+                150, // pageNumber
                 new ArrayList<>() // uploadedFiles (empty list for now)
         );
         studentList.add(student1);
@@ -129,7 +130,11 @@ public class MainController {
                         "message", "HCMUT login successful",
                         "username", student.getUsername(),
                         "role", "HCMUT",
-                        "studentId", student.getStudentID()
+                        "studentId", student.getStudentID(),
+                        "studentName", student.getStudentName(),
+                        "studentEmail", student.getStudentEmail(),
+                        "studentAddress", student.getStudentAddress(),
+                        "pageNumber", student.getPageNumber()
                     ));
                 }
             }
@@ -187,16 +192,51 @@ public class MainController {
     }
 
     @PostMapping("/ssps/{studentID}/print")
-    public String printHandle(@PathVariable String studentID, @RequestParam List<printProperties> fileList,
+    public ResponseEntity<?> printHandle(@PathVariable String studentID, 
+            @RequestBody Map<String, String> request,
             RedirectAttributes redirectAttributes) {
+
+        List<printProperties> fileList = new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        for (Integer i = 0; i < 1; i++) {
+            String fileName = request.get("fileName");
+            printProperties.pageType pageType = Integer.parseInt(request.get("pageType")) == 1 ? printProperties.pageType.A3 : printProperties.pageType.A4;
+            String printerID = request.get("printerID");
+            Boolean twoFace = Boolean.parseBoolean(request.get("twoFace"));
+            Boolean color = Boolean.parseBoolean(request.get("color"));
+            List<String> stringList = new ArrayList<>();
+            try {
+                // Convert JSON string to List<String>
+                stringList = objectMapper.readValue(request.get("pageToPrint"), List.class);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            List<Integer> pageToPrint = new ArrayList<>();
+            for (String s : stringList) {
+                pageToPrint.add(Integer.parseInt(s));
+            }
+            System.out.println("Page List: " + pageToPrint);
+
+            Integer numberOfCopy = Integer.parseInt(request.get("numberOfCopy"));
+
+            printProperties temp = new printProperties(pageType, printerID, fileName, twoFace, color, pageToPrint, numberOfCopy);
+            fileList.add(temp);
+        }
         Integer cost = 0;
         for (printProperties file : fileList) {
             cost = cost + PrintPropertyService.getCost(file);
+            System.out.println(file);
         }
         Student curStudent = StudentService.findById(studentID, studentList);
+        System.out.println(curStudent.getPageNumber());
         // Check page balance if enough or not
         if (cost > curStudent.getPageNumber()) {
             redirectAttributes.addFlashAttribute("error", "Student does not have enough page balance");
+            return ResponseEntity.ok(Map.of(
+                "status", "failed",
+                "message", "Not enough balance"
+            ));
         } else {
             // Save to print History
             for (printProperties file : fileList) {
@@ -208,9 +248,13 @@ public class MainController {
             }
             redirectAttributes.addFlashAttribute("cost", cost);
             redirectAttributes.addFlashAttribute("currentStudent", curStudent);
+            System.out.println(printHistory);
         }
         // Redirect to the page to show print request result
-        return "redirect:/ssps/" + studentID + "/print-result";
+        return ResponseEntity.ok(Map.of(
+            "status", "success",
+            "message", "Request accepted"
+        ));
     }
 
     @GetMapping("/ssps/{studentID}/print-result")
@@ -248,6 +292,30 @@ public class MainController {
         return "printHistory";
     }
 
+    @PostMapping("ssps/{studentID}/print-history")
+    public ResponseEntity<?> history(
+        // @PathVariable String studentID,
+        @RequestBody Map<String, String> request) {
+
+        // Find the student in the database
+        String studentID = request.get("studentID");
+
+        // Find the student and their print History in database from studentID and pass
+        // data to front end
+        Student curStudent = StudentService.findById(studentID, studentList);
+        List<printHistory> studentPrintHistory = new ArrayList<>();
+        studentPrintHistory = PrintService.findById(curStudent, printHistory);
+
+        for (printHistory entry : studentPrintHistory) {
+            System.out.println(entry);
+        }
+        return ResponseEntity.ok(Map.of(
+            "status", "success",
+            "student", curStudent,
+            "printHistory", studentPrintHistory
+        ));
+    }
+
     @GetMapping("ssps/{studentID}/payment")
     public String payment(@PathVariable String studentID, Model model) {
         Student curStudent = StudentService.findById(studentID, studentList);
@@ -260,8 +328,14 @@ public class MainController {
     }
 
     @PostMapping("ssps/{studentID}/payment")
-    public String processPayment(@PathVariable String studentID, @RequestParam paymentProperties payment,
-            RedirectAttributes redirectAttributes) {
+    public ResponseEntity<?> processPayment(
+            @PathVariable String studentID,
+            @RequestBody Map<String, String> request) {
+        
+        
+        paymentProperties payment = new paymentProperties(paymentStatus.COMPLETED, request.get("paymentID"), studentID, LocalDate.now(), 
+                                                        Integer.parseInt(request.get("pageBought")), Integer.parseInt(request.get("paymentAmount")), request.get("receipt"));
+
         Student curStudent = StudentService.findById(studentID, studentList);
         if (payment.getPaymentStatus().equals(paymentStatus.COMPLETED)) {
             // Create new record and add the payment history record to the list if payment
@@ -273,13 +347,20 @@ public class MainController {
                     .add(new paymentHistory(paymentStatus.COMPLETED, "paymentID" + currentIndex, studentID, currentDate,
                             payment.getPageBought(), payment.getPaymentAmount(), payment.getReceipt(), Note));
             // Modify student page balance
+            for (paymentHistory entry : paymentHistory) {
+
+                System.out.println(entry);
+            }
             curStudent.setPageNumber(curStudent.getPageNumber() + payment.getPageBought());
             // Add other attribute for redirect
-            redirectAttributes.addFlashAttribute("currentStudent", curStudent);
+            // redirectAttributes.addFlashAttribute("currentStudent", curStudent);
+            return ResponseEntity.ok(Map.of(
+                "status", "success"
+            ));
         } else // Only add error in redirect
-            redirectAttributes.addFlashAttribute("error", "Payment failed or cancelled.");
-        redirectAttributes.addAttribute("studentID", studentID);
-        return "redirect:/ssps/" + studentID + "/payment-process";
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of(
+            "error", "Payment cancelled"
+        ));
     }
 
     @GetMapping("ssps/{studentID}/payment-process")
@@ -310,5 +391,34 @@ public class MainController {
         // Go to the print history page of the student
         return "paymentHistory";
     }
+
+    @PostMapping("ssps/{studentID}/payment-history")
+    public ResponseEntity<?> paymentHistory(
+        @PathVariable String studentID,
+        @RequestBody Map<String, String> request) {
+
+        // Find the student in the database
+        // String studentID = request.get("studentID");
+        Student curStudent = StudentService.findById(studentID, studentList);
+        
+        if (curStudent == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
+                    "status", "error",
+                    "message", "Student not found"
+                ));
+        }
+
+        // Retrieve the student's payment history
+        List<paymentHistory> studentPaymentHistory = new ArrayList<>();
+        studentPaymentHistory = PaymentService.findById(curStudent, paymentHistory);
+
+        // Return JSON response
+        return ResponseEntity.ok(Map.of(
+            "status", "success",
+            "student", curStudent,
+            "paymentHistory", studentPaymentHistory
+        ));
+    }
+    
 
 }

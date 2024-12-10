@@ -29,5 +29,6 @@
 }
 
 .home-hero {
-    padding: 30px
+    padding: 30px;
+    min-height: calc(100vh - 135px);
 }

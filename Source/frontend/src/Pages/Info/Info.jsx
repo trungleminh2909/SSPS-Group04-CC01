@@ -1,6 +1,8 @@
 import React from "react";
 import { FaUser } from "react-icons/fa"; // Importing the user icon
 import "./Info.css";
+import Footer from "../../Components/Footer/footer";
+import NavBar from "../../Components/NavBar/navBar";
 
 function Info() {
   // ví dụ
@@ -14,6 +16,8 @@ function Info() {
   };
 
   return (
+    <>
+    <NavBar></NavBar>
     <div className="user-info-container">
         <h1 className="info-title">HỒ SƠ NGƯỜI DÙNG</h1>
         <div className="user-info">
@@ -42,6 +46,8 @@ function Info() {
       {/* Nút đăng xuất */}
       <button className="logout-button">Đăng xuất</button>
     </div>
+    <Footer></Footer>
+    </>
   );
 }
 

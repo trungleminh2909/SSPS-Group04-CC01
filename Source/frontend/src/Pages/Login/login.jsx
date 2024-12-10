@@ -23,9 +23,6 @@ function Login() {
 
 
 
-    console.log("username: ", username)
-    console.log("password: ", password)
-    console.log("loginOption", loginOption)
     try {
       const response = await fetch("http://localhost:8080/ssps/login", {
         method: "POST",
@@ -38,22 +35,25 @@ function Login() {
       if (response.ok) {
         const data = await response.json();
         console.log(data)
-
         // Store user information if needed
-        localStorage.setItem("user", JSON.stringify(data));
-        
-        console.log(localStorage.getItem("user"))
-        localStorage.setItem("isLoggedIn", true)
-        console.log(data.username)
-        console.log(data.studentId)
-        window.location.href = `/Home?id={data.studentId}`;
+        window.sessionStorage.setItem("isLoggedIn", true)
+        window.sessionStorage.setItem("username", data.username);
+        window.sessionStorage.setItem("role", data.role);
+        window.sessionStorage.setItem("studentID", data.studentId);
+        window.sessionStorage.setItem("studentEmail", data.studentEmail)
+        window.sessionStorage.setItem("studentAddress", data.studentAddress)
+        window.sessionStorage.setItem("pageNumber", data.pageNumber)
+        window.sessionStorage.setItem("studentAddress", data.studentAddress)
+        window.sessionStorage.setItem("studentName", data.studentName)
+
+        window.location.href = `/Home`;
   
       } else {
         console.error("Login failed:", response.status);
-        // Handle failure (e.g., show an error message)
+        alert("Invalid login information!");
       }
     } catch (error) {
-      console.error("Error:", error);
+      // console.error("Error:", error);
       // Handle error
     }
   };

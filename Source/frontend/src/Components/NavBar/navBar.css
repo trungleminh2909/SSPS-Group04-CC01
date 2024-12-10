@@ -32,7 +32,7 @@ body {
   list-style-type: none;
   display: flex;
   justify-content: space-around;
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
   position: relative;
   width: 50%;
@@ -55,30 +55,24 @@ body {
   border-radius: 25px;
 }
 
-/* When hovering over a link, change the color */
-.nav-item a:hover {
-  color: #f0f0f0;
-}
-
 /* Create a single oval shape under the navbar items */
 .nav-links::before {
   content: '';
   position: absolute;
-  bottom: -15px; /* Place the oval underneath */
   left: 0;
   right: 0;
   justify-content: space-between;
   align-items: center;
   height: 50px;   /* Height of the oval */
   background-color: #030391;
-  border-radius: 0%; /* Create the oval shape */
+  border-radius: 15px; /* Create the oval shape */
   opacity: 0.5;  /* Slight transparency */
   z-index: -1;   /* Make sure it's underneath the links */
   transition: opacity 0.3s ease;  /* Smooth transition */
 }
 
 /* Show the oval when navbar is hovered */
-.navbar:hover .nav-links::before {
+.navbar:hover .nav-links::before{
   opacity: 1;  /* Make the oval fully visible when hovered */
 }
 
@@ -101,7 +95,7 @@ body {
 /* Hover effect for icons */
 .login-icon:hover,
 .bell-icon:hover {
-  color: #f0f0f0;
+  color: #f0f0f069;
 }
 
 /* Bell container to position the notification badge */

@@ -7,9 +7,7 @@ function Notification(notifications) {
 }
 
 function LoginButton({ isLoggedIn, notifications }) {
-  console.log(isLoggedIn);
   if (isLoggedIn == "true") {
-    console.log("True!!!");
     return (
       <>
         <a href="/Login">
@@ -22,39 +20,85 @@ function LoginButton({ isLoggedIn, notifications }) {
       </>
     );
   } else {
-    console.log("False!!!");
-    return <a href="/Login">Đăng nhập</a>;
   }
 }
 
 function NavBar() {
   // State for notifications
   const [notifications, setNotifications] = useState(5); // Example: 5 notifications
-  const isLoggedIn = localStorage.getItem("isLoggedIn")
+  const isLoggedIn = window.sessionStorage.getItem("isLoggedIn")
   // console.log(isLoggedIn)
+  console.log(isLoggedIn)
+  console.log(window.sessionStorage.getItem("role"))
+  if (isLoggedIn) {
+    if (window.sessionStorage.getItem("role") === "HCMUT") {
+      return (
+        <nav className="navbar">
+        {/* Logo */}
+        <div className="nav-logo">
+          <a href="/"><img src="/logobk.png" alt="Logo" className="navbar-logo" /></a>
+        </div>
 
+        {/* Navigation links */}
+        <ul className="nav-links">
+          <li className="nav-item"><a href="/">Trang chủ</a></li>
+          <li className="nav-item"><a href="/Student/Print/1">In tài liệu</a></li>
+          <li className="nav-item"><a href="/Student/BuyPages/1">Mua trang in</a></li>
+          <li className="nav-item"><a href="/Student/History">Lịch sử</a></li>
+        </ul>
 
+        <a href="/Student/Info">
+            <FaUser className="login-icon" />
+        </a>
+        <div className="bell-container">
+            <FaBell className="bell-icon" />
+            {Notification(notifications)}
+        </div>
+        </nav>
+      );
+    } else if (window.sessionStorage.getItem("role") === "SPSO") {
+      return (
+        <nav className="navbar">
+        {/* Logo */}
+        <div className="nav-logo">
+          <a href="/"><img src="/logobk.png" alt="Logo" className="navbar-logo" /></a>
+        </div>
+  
+        {/* Navigation links */}
+        <ul className="nav-links">
+          <li className="nav-item"><a href="/">Trang chủ</a></li>
+          <li className="nav-item"><a href="/Student/Print/1">In tài liệu</a></li>
+          <li className="nav-item"><a href="/Student/BuyPages/1">Mua trang in</a></li>
+          <li className="nav-item"><a href="/Student/History">Lịch sử</a></li>
+        </ul>
+  
+        <a href="/Student/Info">
+            <FaUser className="login-icon" />
+        </a>
+        <div className="bell-container">
+            <FaBell className="bell-icon" />
+            {Notification(notifications)}
+        </div>
+        </nav>
+      );
+    }
+  } 
   return (
-  <>
     <nav className="navbar">
-      {/* Logo */}
-      <div className="nav-logo">
-        <img src="/logobk.png" alt="Logo" className="navbar-logo" />
-      </div>
-
-      {/* Navigation links */}
-      <ul className="nav-links">
-        <li className="nav-item"><a href="/">Trang chủ</a></li>
-        <li className="nav-item"><a href="/about">In tài liệu</a></li>
-        <li className="nav-item"><a href="/services">Mua trang in</a></li>
-        <li className="nav-item"><a href="/contact">Lịch sử</a></li>
-      </ul>
-    
-    <div className="nav-extra">
-    <LoginButton isLoggedIn={isLoggedIn} notifications={notifications} />
+    {/* Logo */}
+    <div className="nav-logo">
+      <a href="/"><img src="/logobk.png" alt="Logo" className="navbar-logo" /></a>
     </div>
-  </nav>
-  </>
+
+    {/* Navigation links */}
+    <ul className="nav-links">
+      <li className="nav-item"><a href="/">Trang chủ</a></li>
+      <li className="nav-item"><a href="/Student/Print/1">In tài liệu</a></li>
+      <li className="nav-item"><a href="/Student/BuyPages/1">Mua trang in</a></li>
+      <li className="nav-item"><a href="/Student/History">Lịch sử</a></li>
+    </ul> 
+    <a href="/Login">Đăng nhập</a>;
+    </nav>
   );
 }
 

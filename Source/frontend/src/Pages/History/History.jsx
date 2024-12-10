@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import './History.css';
+import Footer from "../../Components/Footer/footer";
+import NavBar from "../../Components/NavBar/navBar";
 
 function History() {
   // Mẫu dữ liệu
@@ -43,6 +45,8 @@ function History() {
   };
 
   return (
+    <>
+    <NavBar></NavBar>
     <div className="history-container">
       <h1 className="history-title">LỊCH SỬ IN</h1>
 
@@ -87,6 +91,8 @@ function History() {
         </tbody>
       </table>
     </div>
+    <Footer></Footer>
+    </>
   );
 }
 

@@ -14,7 +14,7 @@ public class PaymentService {
         List<paymentHistory> studentPaymentHistory = new ArrayList<>();
         for (paymentHistory History : paymentHistory) {
             if (History.getStudentID().equals(currentStudent.getStudentID()))
-                paymentHistory.add(History);
+                studentPaymentHistory.add(History);
         }
         return studentPaymentHistory;
 

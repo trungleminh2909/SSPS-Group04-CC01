@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./printing_1.css";
+import "./printing.css";
 import Footer from "../../Components/Footer/footer";
 import NavBar from "../../Components/NavBar/navBar";
 
@@ -17,29 +17,14 @@ function PrintingPage1() {
       setUploadStatus("Hãy chọn ít nhất 1 file để tải lên!!!");
       return;
     }
-
-    // Prepare FormData for POST request
-    const formData = new FormData();
-    fileList.forEach((file) => {
-      formData.append("files", file); // "files" is the key in the backend to accept files
-    });
-
-    try {
-      // Make the POST request
-      const response = await fetch("http://localhost:8080/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
-        setUploadStatus("Files uploaded successfully!");
-      } else {
-        setUploadStatus("Failed to upload files. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error uploading files:", error);
-      setUploadStatus("An error occurred. Please try again.");
-    }
+    let sendFileList = []
+    for (let i = 0; i < fileList.length; i++) {
+      sendFileList.push(fileList[i].name)
+    } 
+    console.log(sendFileList)
+    window.sessionStorage.setItem("files", JSON.stringify(sendFileList))
+    console.log(window.sessionStorage.getItem("files"))
+    window.location.href = "/Student/Print/2"
   };
 
   return (
@@ -48,12 +33,16 @@ function PrintingPage1() {
         <NavBar></NavBar>
         <br />
         <div className="printing-background-container">
+
+          {/* TITLE */}
           <div className="title">
             <strong>
               TẢI LÊN TỆP CẦN IN{" "}
               <i style={{ color: "black" }} className="bi bi-file-earmark-text"></i>
             </strong>
           </div>
+
+          {/* UPLOAD FIELD */}
           <div className="upload-file-field">
             <i
               style={{ color: "black", fontSize: "50px" }}
@@ -61,9 +50,13 @@ function PrintingPage1() {
             ></i>
             <p>Kéo, thả tệp cần in tại đây</p>
             <p>Hoặc</p>
-            <input type="file" multiple onChange={handleFileChange} />
+            <input type="file" onChange={handleFileChange} required/>
+            <br />
+            <br />
           </div>
-          <p>Chỉ hỗ trợ file có định dạng {/* danh sách các định dạng */}</p>
+
+          {/* INFO FIELD */}
+          <p>Chỉ hỗ trợ file có định dạng: {`pdf, docx`}</p>
 
           {/* Display the uploaded file names */}
           <div className="uploaded-files">
@@ -81,20 +74,15 @@ function PrintingPage1() {
 
           {/* Display upload status */}
           {uploadStatus && <p className="upload-status" style={{  }}>{uploadStatus}</p>}
-
-          <button
-            className="printing-continue-btn"
-            type="button"
-            onClick={handleSubmit}
-          >
-            <a href="/Print/2">Tiếp tục</a> 
-            {/* Send data */}
+          <br /><br />
+          <button className="continue-btn" type="button" onClick={handleSubmit}>
+            Tiếp tục 
           </button>
-          <button className="printing-cancel-btn" type="button">
+          <button className="cancel-btn" type="button" onClick={() => {window.location.href = "/Home"}}>
             Huỷ
           </button>
         </div>
-        <Footer imgSrc="../logobk.png"></Footer>
+        <Footer></Footer>
       </div>
     </>
   );

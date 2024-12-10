@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-SspsApplication<ssps>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.software.ssps.SspsApplication",
+            "projectName": "ssps",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

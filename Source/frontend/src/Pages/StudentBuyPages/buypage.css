@@ -1,12 +1,23 @@
-.printing-background-container {
+
+.buypages-background-container {
     width: 70%;
-    height: 450px;
     background-color: rgba(20, 136, 216, 0.25);
     position: relative;
-    /* top: 40%; */
+    height: 500px;
     left: 15%;
     padding: 1% 5% 0 5%;
     border-radius: 10px;
+}
+
+.buypages-form-container {
+    display: flex;
+    justify-content: center;
+    border-radius: 15px;
+    width: 100%;
+    height: auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    background-color: white;
 }
 
 .title {
@@ -14,16 +25,6 @@
     font-size: 30px;
     padding-top: 10px;
 }
-
-.upload-file-field {
-    text-align: center;
-    border-radius: 15px;
-    width: 100%;
-    height: auto;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    background-color: white;
-}   
 
 .printing-cancel-btn {
     position: absolute;
@@ -42,3 +43,16 @@
     bottom: 10px;
     margin: 10px;
 }
+
+table.BuyPages {
+    width: 70%;
+    height: 200px;
+    font-size: 20px;
+    padding: 20px 0;
+}   
+
+div.buyPageInfo i {
+    color: black;
+    font-size: 20;
+}
+
