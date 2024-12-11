@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import './spsoHistory.css';
+import './History.css';
 import Footer from "../../../Components/Footer/footer";
 import NavBar from "../../../Components/NavBar/navBar";
 
-function SPSOHistory() {
+function SPSOPaymentHistory() {
   // Mẫu dữ liệu
+
   const getCurrentDate = () => {
     const now = new Date();
     const year = now.getFullYear();
@@ -15,18 +16,17 @@ function SPSOHistory() {
   
   const [startDate, setStartDate] = useState(getCurrentDate);
   const [endDate, setEndDate] = useState(getCurrentDate);
-  const [filteredPrintHistory, setFilteredPrintHistory] = useState([]);
+  const [filteredPaymentHistory, setFilteredPaymentHistory] = useState([]);
   
+
   const handleSubmit = async () => {
-  
+
     try {
-      const response = await fetch(`http://localhost:8080/ssps/get-print-history`, {
-        method: "Get",
-        headers: {
-          "Content-Type": "application/json",   
-        },
+      const response = await fetch(`http://localhost:8080/ssps/get-payment-history`, {
+        method: "GET"
       });
-       if (!response.ok) {
+    
+      if (!response.ok) {
         const err = await response.json();
         console.log(err);
       } else {
@@ -36,19 +36,19 @@ function SPSOHistory() {
         const paymentDate = new Date(item.paymentDate);
         const start = new Date(startDate);
         const end = new Date(endDate);
-        return printDate >= start && paymentDate <= end;
+        return paymentDate >= start && paymentDate <= end;
           });
-        setFilteredPrintHistory(filteredData);
+        setFilteredPaymentHistory(filteredData);
         }
     } catch (error) {
       console.log(error)
     }
   }
-  
+
   useEffect(() => {
     handleSubmit();
   }, []);
-
+  
   return (
   <>
     <NavBar></NavBar>
@@ -56,10 +56,10 @@ function SPSOHistory() {
       <div>
         <table className="history-title-table">
           <tr>
-            <button className="selected" onClick={() => {window.location.href = "/SPSO/History"}}>
+            <button className="notSelected" onClick={() => {window.location.href = "/SPSO/History"}}>
               <th>LỊCH SỬ IN</th>
             </button>
-            <button className="notSelected" onClick={() => {window.location.href = "/SPSO/History/Payment"}}>
+            <button className="selected" onClick={() => {window.location.href = "/SPSO/History/Payment"}}>
               <th>LỊCH SỬ THANH TOÁN</th>
             </button>
           </tr>
@@ -92,22 +92,24 @@ function SPSOHistory() {
       <table className="history-table">
         <thead>
           <tr>
-            <th>Mã đơn in</th>
+            <th>Mã đơn</th>
             <th>Mã sinh viên</th>
-            <th>Tên tài liệu</th>
-            <th>Ngày thực hiện</th>
+            <th>Ngaỳ thực hiện</th>
+            <th>Số trang</th>
+            <th>Số tiền thanh toán</th>
             <th>Trạng thái</th>
             <th>Ghi chú</th>
           </tr>
         </thead>
         <tbody>
-          {filteredPrintHistory.map((item, index) => (
+          {filteredPaymentHistory.map((item, index) => (
             <tr key={index}>
-              <td>{item.printID}</td>
+              <td>{item.paymentID}</td>
               <td>{item.studentID}</td>
-              <td>{item.fileName}</td>
-              <td>{item.printDate}</td>
-              <td>{item.printStatus}</td>
+              <td>{item.paymentDate}</td>
+              <td>{item.pageBought}</td>
+              <td>{item.paymentAmount}</td>
+              <td>{item.paymentStatus}</td>
               <td>{item.note}</td>
             </tr>
           ))}
@@ -119,4 +121,4 @@ function SPSOHistory() {
   );
 }
 
-export default SPSOHistory;
+export default SPSOPaymentHistory;

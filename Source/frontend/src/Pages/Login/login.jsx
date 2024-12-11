@@ -46,7 +46,7 @@ function Login() {
           window.sessionStorage.setItem("pageNumber", data.pageNumber)
           window.sessionStorage.setItem("studentName", data.studentName) 
         } else {
-          window.sessionStorage.setItem("staffID", data.id);
+          window.sessionStorage.setItem("staffID", data.ID);
           window.sessionStorage.setItem("staffEmail", data.email)
           window.sessionStorage.setItem("staffAddress", data.address)
           window.sessionStorage.setItem("staffName", data.name)
@@ -55,7 +55,7 @@ function Login() {
           console.log(window.sessionStorage.getItem("role"))
           console.log(window.sessionStorage.getItem("staffID"))
           console.log(window.sessionStorage.getItem("staffEmail"))
-          console.log(window.sessionStorage.getItem("staffAddress"))         
+          console.log(window.sessionStorage.getItem("staffAddress"))      
         }
 
 

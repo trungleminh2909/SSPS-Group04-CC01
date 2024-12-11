@@ -1,21 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa"; // Importing the user icon
 import "./Info.css";
+import NavBar from "../../../Components/NavBar/navBar";
+import Footer from "../../../Components/Footer/footer";
 
 function SPSOInfo() {
     const [staff, setStaff] = useState ([]);
     
     const fetchUser = async () =>{
-        const id = window.sessionStorage.getItem('staffID');
+        const id = window.sessionStorage.getItem("staffID");
+        console.log(id);
         try{
             const response = await fetch(`http://localhost:8080/ssps/admin/staffInfo/${id}`,{
                 method: 'GET'
             });
+            if (!response.ok){
+                const errorData = await response.json(); 
+                console.error('HTTP error:', errorData); 
+                throw new Error(`Error: ${response.statusText}`);
+            }
             const data = await response.json();
             setStaff(data); 
         }
         catch (err){
-            console.log(err);
+            console.error(err.message);
         }
     }
 
@@ -24,6 +32,8 @@ function SPSOInfo() {
     })
 
   return (
+    <div>
+        <NavBar/>
     <div className="user-info-container">
         <h1 className="info-title">HỒ SƠ NGƯỜI DÙNG</h1>
         <div className="user-info">
@@ -50,7 +60,15 @@ function SPSOInfo() {
       </div>
 
       {/* Nút đăng xuất */}
-      <button className="logout-button">Đăng xuất</button>
+      <button className="logout-button" onClick={() => {
+        window.sessionStorage.setItem("studentID", "");
+        window.sessionStorage.setItem("username", "");
+        window.sessionStorage.setItem("role", "");
+        window.sessionStorage.setItem("isLoggedIn", false)
+        window.location.href = "/Home"
+      }}>Đăng xuất</button>
+    </div>
+    <Footer/>
     </div>
   );
 }
