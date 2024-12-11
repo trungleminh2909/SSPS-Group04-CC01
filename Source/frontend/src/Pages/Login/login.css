@@ -2,7 +2,7 @@
 .login-page.wrapper {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: auto;
 }
 
 /* Style for the login container */
@@ -11,6 +11,7 @@
     /* Set the width to 800 pixels */
     max-width: 100%;
     margin: auto;
+    margin-top: 10px;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -38,6 +39,7 @@ input[type="password"] {
     width: 100%;
     padding: 8px;
     margin-bottom: 10px;
+    /* Adjust margin for consistent spacing */
     box-sizing: border-box;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -48,6 +50,7 @@ input[type="password"] {
     width: 100%;
     padding: 8px;
     margin-bottom: 10px;
+    /* Adjust margin for consistent spacing */
     box-sizing: border-box;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -64,6 +67,8 @@ button.confirm-button {
     /* Changing text color to black */
     font-size: 16px;
     cursor: pointer;
+    margin-top: 36px;
+    /* Ensure spacing is consistent with inputs */
 }
 
 button.confirm-button:hover {
