@@ -87,7 +87,7 @@ const EditStaff = () => {
         <NavBar/>
 
     <div className="form-container">
-      <h2>Update Staff Information</h2>
+      <h2>Cập nhật thông tin nhân viên</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="name">Name:</label>
@@ -122,11 +122,11 @@ const EditStaff = () => {
           <input type="text" id="role" name="role" value={staff.role} onChange={handleChange} required readOnly/>
         </div>
         <div className="form-group">
-          <button type="submit">Update</button>
+          <button type="submit">Cập nhật</button>
         </div>
       </form>
       <div className="Delete">
-          <button onClick={Delete}>Delete</button>
+          <button onClick={Delete}>Xóa tài khoản</button>
         </div>
     </div>
     <Footer/>

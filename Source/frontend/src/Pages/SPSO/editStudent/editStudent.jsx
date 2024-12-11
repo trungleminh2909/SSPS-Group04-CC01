@@ -82,7 +82,7 @@ const EditStudent = () => {
     <div>
         <NavBar/>
     <div className="form-container">
-      <h2>Update Student Information</h2>
+      <h2>Cập nhật thông tin sinh viên</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="studentName">Student Name:</label>
@@ -117,11 +117,11 @@ const EditStudent = () => {
           <input type='number' id="pageNumber" name="pageNumber" value={student.pageNumber} onChange={handleChange} />
         </div>
         <div className="form-group">
-          <button type="submit">Update</button>
+          <button type="submit">Cập nhật</button>
         </div>
       </form>
       <div className="Delete">
-          <button onClick={Delete}>Delete</button>
+          <button onClick={Delete}>Xóa tài khoản</button>
         </div>
     </div>
     <Footer/>

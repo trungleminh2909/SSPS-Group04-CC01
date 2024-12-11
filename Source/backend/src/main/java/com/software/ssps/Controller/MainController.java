@@ -93,13 +93,13 @@ public class MainController {
                 "avatar1.png", "SPSO"));
         staffList.add(new Staff("468465", "Jane Smith", "janesmith", "password456", "jane@example.com", "456 Elm St",
                 "avatar2.png", "SPSO"));
-        printerList.add(new Printer("P001", "Canon", "Tòa A4", "active"));
-        printerList.add(new Printer("P002", "HP", "Tòa B2", "active"));
-        printerList.add(new Printer("P003", "Epson", "Tòa C3", "inactive"));
-        printerList.add(new Printer("P004", "Brother", "Tòa A1", "active"));
-        printerList.add(new Printer("P005", "Samsung", "Tòa B5", "inactive"));
+        printerList.add(new Printer("P001", "Canon", "Tòa A4 - Cơ sở Lý Thường Kiệt", "active"));
+        printerList.add(new Printer("P002", "Panasonic ", "Tòa B4 - Cơ sở Lý Thường Kiệt", "active"));
+        printerList.add(new Printer("P003", "HP", "Tòa B1 - Cơ sở Lý Thường Kiệt", "active"));
+        printerList.add(new Printer("P004", "Brother", "Tòa C5 - Cơ sở Lý Thường Kiệt", "inactive"));
+        printerList.add(new Printer("P005", "Samsung", "Tòa B5 - Cơ sở Lý Thường Kiệt", "inactive"));
 
-        systemSetting = new SystemSetting("1", 30, new Date(), true, true, false, true, false, true, true);
+        systemSetting = new SystemSetting("1", 30, new Date(), true, true, false, false, false, false, false);
         paymentHistory = new ArrayList<>();
         printHistory = new ArrayList<>();
         systemHistories = new ArrayList<>();
