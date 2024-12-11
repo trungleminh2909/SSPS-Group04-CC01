@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import './AddAccount.css';
+import { useNavigate } from "react-router-dom";
+import NavBar from "../../../Components/NavBar/navBar";
+import Footer from "../../../Components/Footer/footer";
 
 function AddAccount() {
   // State để lưu thông tin người dùng
@@ -7,6 +10,7 @@ function AddAccount() {
   const [formData, setFormData] = useState({
     id: '',
     name: '',
+    username: '',
     password: '',
     email: '',
     address: '',
@@ -14,6 +18,7 @@ function AddAccount() {
     pageNumber: '',
     spsId: ''
   });
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -28,22 +33,66 @@ function AddAccount() {
     setFormData({
       id: '',
       name: '',
+      username: '',
       password: '',
       email: '',
       address: '',
       avatar: '',
       pageNumber: '',
-      spsId: ''
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log("Tạo tài khoản mới:", formData);
-    alert("Tài khoản đã được tạo!");
+    if (accountType === 'student'){
+        try{
+            const payLoad = {studentName:formData.name, studentID:formData.id, username:formData.username,
+                password:formData.password, studentEmail:formData.email, studentAddress:formData.address,
+                avatar: formData.avatar, pageNumber: formData.pageNumber
+            }
+            const response = await fetch(`http://localhost:8080/ssps/admin/addStudent`,{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payLoad),
+            })
+            if (!response.ok) {
+                console.log(response);
+                return;
+            }
+        }catch (err){
+            console.log(err);
+        }
+    }else{
+        try{
+            const role = accountType ==='spso' ? "SPSO" : "Admin";
+            const payLoad = {name:formData.name, id:formData.id, username:formData.username,
+                password:formData.password, email:formData.email, address:formData.address,
+                avatar: formData.avatar,role: role}
+            const response = await fetch(`http://localhost:8080/ssps/admin/addStaff`,{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payLoad),
+            })
+            if (!response.ok) {
+                console.log(response);
+                return;
+            }
+        }catch (err){
+            console.log(err);
+        }
+    }
+    navigate (`/admin/accountList`);
   };
 
   return (
+    <div>
+        <NavBar/>
+
+        
     <div className="add-account-container">
       <h1>Thêm Tài Khoản Mới</h1>
 
@@ -63,8 +112,8 @@ function AddAccount() {
           <input
             type="radio"
             name="accountType"
-            value="spsso"
-            checked={accountType === "spsso"}
+            value="spso"
+            checked={accountType === "spso"}
             onChange={handleAccountTypeChange}
           />
           SPSO
@@ -82,9 +131,6 @@ function AddAccount() {
       </div>
 
       <form onSubmit={handleSubmit} className="account-form">
-        {/* Form cho Sinh viên */}
-        {accountType === "student" && (
-          <>
             <label>
               ID:
               <input
@@ -101,6 +147,16 @@ function AddAccount() {
                 type="text"
                 name="name"
                 value={formData.name}
+                onChange={handleInputChange}
+                required
+              />
+            </label>
+            <label>
+              Tên tài khoản:
+              <input
+                type="text"
+                name="username"
+                value={formData.username}
                 onChange={handleInputChange}
                 required
               />
@@ -145,153 +201,21 @@ function AddAccount() {
                 required
               />
             </label>
-            <label>
+            {accountType === "student" ? <label>
               Số trang in:
               <input
                 type="number"
                 name="pageNumber"
+                min = '0'
                 value={formData.pageNumber}
                 onChange={handleInputChange}
                 required
               />
-            </label>
-          </>
-        )}
-
-        {/* Form cho SPSO */}
-        {accountType === "spsso" && (
-          <>
-            <label>
-              SPSO ID:
-              <input
-                type="text"
-                name="spsId"
-                value={formData.spsId}
-                onChange={handleInputChange}
-                required
-              />
-            </label>
-            <label>
-              Họ tên:
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                required
-              />
-            </label>
-            <label>
-              Mật khẩu:
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                required
-              />
-            </label>
-            <label>
-              Email:
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                required
-              />
-            </label>
-            <label>
-              Địa chỉ:
-              <input
-                type="text"
-                name="address"
-                value={formData.address}
-                onChange={handleInputChange}
-                required
-              />
-            </label>
-            <label>
-              Avatar:
-              <input
-                type="text"
-                name="avatar"
-                value={formData.avatar}
-                onChange={handleInputChange}
-                required
-              />
-            </label>
-          </>
-        )}
-
-        {/* Form cho Admin */}
-        {accountType === "admin" && (
-          <>
-            <label>
-              ID:
-              <input
-                type="text"
-                name="id"
-                value={formData.id}
-                onChange={handleInputChange}
-                required
-              />
-            </label>
-            <label>
-              Họ tên:
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                required
-              />
-            </label>
-            <label>
-              Mật khẩu:
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                required
-              />
-            </label>
-            <label>
-              Email:
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                required
-              />
-            </label>
-            <label>
-              Địa chỉ:
-              <input
-                type="text"
-                name="address"
-                value={formData.address}
-                onChange={handleInputChange}
-                required
-              />
-            </label>
-            <label>
-              Avatar:
-              <input
-                type="text"
-                name="avatar"
-                value={formData.avatar}
-                onChange={handleInputChange}
-                required
-              />
-            </label>
-          </>
-        )}
-
+            </label>:""}
         <button type="submit" className="save-button">Lưu</button>
       </form>
+    </div>
+    <Footer/>
     </div>
   );
 }

@@ -5,6 +5,7 @@ import Footer from '../../Components/Footer/footer'
 import NavBar from '../../Components/NavBar/navBar'
 
 function Home({ studentId }) {
+    const role = window.sessionStorage.getItem("role");
 
   const Info = (isLoggedIn) => {
     console.log(isLoggedIn)
@@ -32,11 +33,17 @@ function Home({ studentId }) {
       <a className="home-service-card" href='/SPSO/System'>
         <h2 >Hệ thống</h2>
         <p>Điều chỉnh số trang và ngày thêm trang</p>
-      </a>              
+      </a>   
+      {role === "Admin"? 
+      <a className="home-service-card" href='/admin/accountList'>
+        <h2 >Danh sách tài khoản</h2>
+        <p>Quản lý tài khoản trong hệ thống<br/>&nbsp;</p>
+      </a> :
       <a className="home-service-card" href='/SPSO/History'>
         <h2 >Lịch sử</h2>
         <p>Xem lại các đơn in của học sinh <br/>&nbsp;</p>
-      </a></>
+      </a> }       
+      </>    
     } else {
       return <>
       <a href='' className="home-service-card">

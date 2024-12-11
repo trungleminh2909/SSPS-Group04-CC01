@@ -1,0 +1,91 @@
+/* Container chứa toàn bộ form */
+.form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  /* Tiêu đề */
+  h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #333;
+  }
+  
+  /* Các nhóm form */
+  .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  
+  /* Nhãn các trường nhập liệu */
+  .form-group label {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    display: block;
+    color: #555;
+  }
+  
+  /* Các trường nhập liệu */
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 5px;
+  }
+  
+  /* Các trường không cho chỉnh sửa (readOnly) */
+  .form-group input[readonly] {
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+  }
+  
+  /* Nút Submit (Cập nhật) */
+  .form-group button {
+    padding: 12px 24px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .form-group button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Nút Delete */
+  .Delete button {
+    padding: 10px 20px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+  }
+  
+  .Delete button:hover {
+    background-color: #d32f2f;
+  }
+  
+  /* Điều chỉnh cho các trường hợp điện thoại và dài */
+  .form-group input[type="text"] {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  /* Điều chỉnh cho các nút */
+  button {
+    width: 100%;
+  }  

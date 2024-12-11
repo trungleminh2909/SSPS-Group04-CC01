@@ -55,7 +55,7 @@ function Login() {
           console.log(window.sessionStorage.getItem("role"))
           console.log(window.sessionStorage.getItem("staffID"))
           console.log(window.sessionStorage.getItem("staffEmail"))
-          console.log(window.sessionStorage.getItem("staffAddress"))         
+          console.log(window.sessionStorage.getItem("staffAddress"))      
         }
 
 
