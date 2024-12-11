@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import './Setting.css';
-import Footer from '../../../Components/Footer/footer'
-import NavBar from '../../../Components/NavBar/navBar'
+import NavBar from "../../../Components/NavBar/navBar";
+import Footer from "../../../Components/Footer/footer";
 
 function Setting() {
   const [pageNumber, setPageNumber] = useState('');
@@ -16,13 +16,55 @@ function Setting() {
     txt: false,
   });
 
+  const fetchData = async()=>{
+    try{
+        const response = await fetch(`http://localhost:8080/ssps/spso/getSetting`, {method:'GET'});
+        if (!response.ok) {
+            console.log(response);
+            return;
+        }
+        const data = await response.json();
+        console.log(data);
+        const pageNum = Number(data.pageNumber);
+        setPageNumber(pageNum);
+        setDateAdded(new Date(data.dateAdded).toISOString().split("T")[0]);
+        setFileFormats({pdf: data.pdf,
+                        docx: data.docx,
+                        doc: data.doc,
+                        png: data.png,
+                        iepg: data.iepg,
+                        jpg: data.jpg,
+                        txt: data.text,});
+    }catch (err){
+        console.log(err);
+    }
+  }
+
+    useEffect(() => { 
+        fetchData(); 
+    }, []); 
+
   // Hàm xử lý lưu cài đặt
-  const handleSaveSettings = () => {
-    console.log('Cài đặt đã lưu:', {
-      pageNumber,
-      dateAdded,
-      fileFormats,
-    });
+  const handleSaveSettings = async() => {
+    try{
+        const payLoad = {id:"1", pageNumber:pageNumber,dateAdded:new Date(dateAdded),
+            pdf:fileFormats.pdf, docx:fileFormats.docx, doc:fileFormats.doc,
+            png:fileFormats.png, iepg:fileFormats.iepg, jpg:fileFormats.jpg,
+            text:fileFormats.txt};
+        const response = await fetch(`http://localhost:8080/ssps/spso/changeSystem`,{
+            method: 'PUT',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify(payLoad)
+        });
+        if (!response.ok) {
+            console.log(response);
+            return;
+        }
+    }catch(err){
+        console.log(err);
+    }
     alert('Cài đặt đã được lưu');
   };
 
@@ -36,8 +78,9 @@ function Setting() {
   };
 
   return (
-    <>
-    <NavBar></NavBar>
+    <div>
+        <NavBar/>
+        
     <div className="settings-container">
       <div className="settings-form">
         <h2>Thiết lập hệ thống</h2>
@@ -57,7 +100,7 @@ function Setting() {
         <div className="form-group">
           <label>Ngày thêm trang mặc định:</label>
           <input
-            type="text"
+            type='date'
             value={dateAdded}
             onChange={(e) => setDateAdded(e.target.value)}
             placeholder="DD/MM/YYYY"
@@ -133,8 +176,8 @@ function Setting() {
         </button>
       </div>
     </div>
-    <Footer></Footer>
-    </>
+    <footer/>
+    </div>
   );
 }
 

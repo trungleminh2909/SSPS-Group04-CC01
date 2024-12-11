@@ -20,6 +20,11 @@ import Setting from "./Pages/SPSO/Setting/Setting";
 import SPSOInfo from './Pages/SPSO/Info/Info';
 import SPSOHistory from './Pages/SPSO/SPSOHistory/spsoHistory';
 
+import Acclist from './Pages/SPSO/Acclist/Acclist.jsx';
+import AddAccount from './Pages/SPSO/AddAccount/AddAccount.jsx';
+import EditStaff from './Pages/SPSO/editStaff/editStaff.jsx';
+import EditStudent from './Pages/SPSO/editStudent/editStudent.jsx';
+
 function App() {
   localStorage.removeItem("isLoggedIn")
   localStorage.setItem("isLoggedIn", false)
@@ -46,7 +51,11 @@ function App() {
             <Route path="/Student/BuyPages/3" element={<BuyPages3 />} />
             <Route path="/SPSO/History" element={<SPSOHistory />} />
             <Route path="/SPSO/Printer" element={<Printer />} />
-            <Route path="/SPSO/System" element={<Setting />} />
+            <Route path="/SPSO/System" element={<Setting />} /> 
+            <Route path='/admin/accountList' element={<Acclist/>}/>
+            <Route path='/admin/addAccount' element={<AddAccount/>}/>
+            <Route path='/admin/editStaff' element={<EditStaff/>}/>
+            <Route path='/admin/editStudent' element={<EditStudent/>}/>
           </Routes>
         </div>
       </div>

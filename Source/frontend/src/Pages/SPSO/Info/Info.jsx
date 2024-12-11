@@ -1,25 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa"; // Importing the user icon
 import "./Info.css";
-import Footer from "../../../Components/Footer/footer";
-import NavBar from "../../../Components/NavBar/navBar";
 
 function SPSOInfo() {
-  // ví dụ
-  const user = {
-    name: 'Nguyễn Văn A',
-    employeeId: 'NV12345',
-    position: 'Nhân viên',
-    email: 'nguyen.vana@example.com',
-    address: 'Hà Nội, Việt Nam',
-    role: 'SPSO' // Thêm role vào dữ liệu người dùng
-  };
+    const user = JSON.parse(localStorage.getItem('user'))
+    const [staff, setStaff] = useState ([]);
+    
+    const fetchUser = async () =>{
+        const id = user.id;
+        try{
+            const response = await fetch(`http://localhost:8080/ssps/admin/staffInfo/${id}`,{
+                method: 'GET'
+            });
+            const data = await response.json();
+            setStaff(data); 
+        }
+        catch (err){
+            console.log(err);
+        }
+    }
+
+    useEffect(()=>{
+        fetchUser();
+    })
 
   return (
-    <>
-    <NavBar></NavBar>
     <div className="user-info-container">
-      <br />
         <h1 className="info-title">HỒ SƠ NGƯỜI DÙNG</h1>
         <div className="user-info">
         {/* Cột chứa biểu tượng và role */}
@@ -30,44 +36,23 @@ function SPSOInfo() {
           </div>
           {/* Dòng "Role" */}
           <div className="user-role">
-            <p>{user.role}</p>
+            <p>{staff.role}</p>
           </div>
         </div>
 
         {/* Cột chứa thông tin người dùng */}
         <div className="user-right">
-          <h2>{window.sessionStorage.getItem("staffName")}</h2>
-          <p><strong>Mã số nhân viên:</strong> {window.sessionStorage.getItem("staffID")}</p>
-          <p><strong>Chức vụ:</strong> {window.sessionStorage.getItem("staffEmail")}</p>
-          <p><strong>Email:</strong> {window.sessionStorage.getItem("staffEmail")}</p>
-          <p><strong>Địa chỉ:</strong> {window.sessionStorage.getItem("staffAddress")}</p>
-        </div>
-
-        {/* Cột chứa thông tin người dùng */}
-        <div className="user-right">
-          <h2></h2>
-          <p></p>
-          <p></p>
-          <p>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          </p>
-          <p><strong></strong></p>
+          <h2>{staff.name}</h2>
+          <p><strong>Mã số nhân viên:</strong> {staff.id}</p>
+          <p><strong>Chức vụ:</strong> {staff.role}</p>
+          <p><strong>Email:</strong> {staff.email}</p>
+          <p><strong>Địa chỉ:</strong> {staff.address}</p>
         </div>
       </div>
 
       {/* Nút đăng xuất */}
-      <button className="logout-button" onClick={() => {
-        window.sessionStorage.setItem("studentID", "");
-        window.sessionStorage.setItem("username", "");
-        window.sessionStorage.setItem("role", "");
-        window.sessionStorage.setItem("isLoggedIn", false)
-        window.location.href = "/Home"
-      }}>Đăng xuất</button>
+      <button className="logout-button">Đăng xuất</button>
     </div>
-    <Footer></Footer>
-    </>
   );
 }
 
