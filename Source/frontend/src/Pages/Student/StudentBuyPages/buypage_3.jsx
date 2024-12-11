@@ -30,7 +30,7 @@ function BuyPages3() {
                     <td>{window.sessionStorage.getItem("pageNumber")}</td>
                   </tr>
                 </table>
-                <button className='continue-btn'onClick={() => {window.location.href='/Student/History/Payment'}}>Lịch sử in</button> {/*SEND DATA*/}
+                <button className='continue-btn'onClick={() => {window.location.href='/Student/History/Payment'}}>Lịch sử thanh toán</button> {/*SEND DATA*/}
                 <button className='cancel-btn' onClick={() => {window.location.href='/Home'}}>Đóng</button>
             </div>
             <Footer></Footer>

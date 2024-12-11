@@ -54,7 +54,6 @@ function PrintingPage3() {
         <>
         <NavBar></NavBar>
         <div className='wrapper'>
-            <button onClick={requestPrinter}>CLCLCLCLCLCLC</button>
         <br />
         <div className='printing-background-container'>
             <div className='title'><strong>CHỌN MÁY IN <i style={{ color: "black"}} className="bi bi-printer"></i></strong></div>
