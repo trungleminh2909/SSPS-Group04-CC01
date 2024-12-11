@@ -1,6 +1,7 @@
 package com.software.ssps.Controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.net.http.HttpResponse;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -241,20 +242,16 @@ public class MainController {
 
         for (Integer i = 0; i < 1; i++) {
             String fileName = request.get("fileName");
-            printProperties.pageType pageType = Integer.parseInt(request.get("pageType")) == 1 ? printProperties.pageType.A3 : printProperties.pageType.A4;
+            printProperties.pageType pageType = request.get("pageType") == "1" ? printProperties.pageType.A3 : printProperties.pageType.A4;
             String printerID = request.get("printerID");
             Boolean twoFace = Boolean.parseBoolean(request.get("twoFace"));
             Boolean color = Boolean.parseBoolean(request.get("color"));
-            List<String> stringList = new ArrayList<>();
+            List<Integer> pageToPrint = new ArrayList<>();
             try {
                 // Convert JSON string to List<String>
-                stringList = objectMapper.readValue(request.get("pageToPrint"), List.class);
+                pageToPrint = objectMapper.readValue(request.get("pageToPrint"), ArrayList.class);
             } catch (Exception e) {
                 e.printStackTrace();
-            }
-            List<Integer> pageToPrint = new ArrayList<>();
-            for (String s : stringList) {
-                pageToPrint.add(Integer.parseInt(s));
             }
             System.out.println("Page List: " + pageToPrint);
 
@@ -608,6 +605,21 @@ public class MainController {
    @ResponseBody
    public List<Printer> printerList() {
        return printerList;
+   }
+
+   @CrossOrigin(origins = "http://localhost:5173")
+   @PostMapping("/ssps/spso/printerList")
+   @ResponseBody
+   public ResponseEntity<?> printerListForStudent() {
+        List<Printer> fileredPrinterList = new ArrayList<>();
+        for (Printer printer : printerList) {
+            if (printer.getStatus() == "active") fileredPrinterList.add(printer);
+        }
+        return ResponseEntity.ok(Map.of(
+            "status", "success",
+            "message", "printerList",
+            "printerList", fileredPrinterList
+        ));
    }
 
    @CrossOrigin(origins = "http://localhost:5173")
