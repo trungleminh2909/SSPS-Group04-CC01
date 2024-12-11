@@ -1,0 +1,67 @@
+/* Container chứa tất cả nội dung */
+.info-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;  /* Căn giữa các phần tử theo chiều ngang */
+    justify-content: center;  /* Căn giữa nội dung theo chiều dọc */
+    height: 100vh;  /* Chiều cao tối thiểu là 100% chiều cao cửa sổ */
+    margin: 0 auto;  /* Căn giữa container theo chiều ngang */
+    width: 100%;      /* Đảm bảo container chiếm toàn bộ chiều rộng */
+    margin-left: 500px;
+}
+.info-title {
+    font-size: 32px;  /* Thay đổi kích thước chữ */
+    font-weight: bold;  /* Đặt chữ in đậm */
+    color: #333;  /* Chọn màu chữ */
+    text-align: center;  /* Căn giữa tiêu đề */
+    margin-bottom: 30px;  /* Khoảng cách giữa tiêu đề và các phần tử khác */
+    margin-left: 580px;
+  }
+/* Container chứa thông tin người dùng */
+.user-info {
+    display: flex;
+    justify-content: space-between;  /* Căn đều các phần tử trong container */
+    width: 100%;                    /* Đảm bảo container chiếm toàn bộ chiều rộng */
+    max-width: 600px;               /* Tạo chiều rộng tối đa cho box */
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    padding: 30px;
+    margin-left: 450px;
+}
+  
+  /* Cột bên trái: Biểu tượng người dùng và role */
+  .user-left {
+    display: flex;
+    flex-direction: column;         /* Xếp theo chiều dọc */
+    align-items: center;            /* Căn giữa các phần tử trong cột */
+    justify-content: center;
+    margin-left: 100px;
+  }
+  
+  /* Cột bên phải: Thông tin người dùng */
+  .user-right {
+    display: flex;
+    flex-direction: column;         /* Xếp theo chiều dọc */
+    justify-content: center;
+    align-items: flex-start;        /* Căn lề trái */
+    margin-left: 50px;              /* Khoảng cách giữa hai cột */
+  }
+  
+  .logout-button {
+    background-color: red;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block; /* Đảm bảo nút sẽ căn giữa */
+    margin-left: 720px;
+  }
+  
+  .logout-button:hover {
+    background-color: darkred;
+  }  

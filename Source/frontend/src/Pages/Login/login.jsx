@@ -39,12 +39,25 @@ function Login() {
         window.sessionStorage.setItem("isLoggedIn", true)
         window.sessionStorage.setItem("username", data.username);
         window.sessionStorage.setItem("role", data.role);
-        window.sessionStorage.setItem("studentID", data.studentId);
-        window.sessionStorage.setItem("studentEmail", data.studentEmail)
-        window.sessionStorage.setItem("studentAddress", data.studentAddress)
-        window.sessionStorage.setItem("pageNumber", data.pageNumber)
-        window.sessionStorage.setItem("studentAddress", data.studentAddress)
-        window.sessionStorage.setItem("studentName", data.studentName)
+        if (data.role === "HCMUT") {
+          window.sessionStorage.setItem("studentID", data.studentId);
+          window.sessionStorage.setItem("studentEmail", data.studentEmail)
+          window.sessionStorage.setItem("studentAddress", data.studentAddress)
+          window.sessionStorage.setItem("pageNumber", data.pageNumber)
+          window.sessionStorage.setItem("studentName", data.studentName) 
+        } else {
+          window.sessionStorage.setItem("staffID", data.ID);
+          window.sessionStorage.setItem("staffEmail", data.email)
+          window.sessionStorage.setItem("staffAddress", data.address)
+          window.sessionStorage.setItem("staffName", data.name)
+          console.log(window.sessionStorage.getItem("isLoggedIn"));
+          console.log(window.sessionStorage.getItem("username"))
+          console.log(window.sessionStorage.getItem("role"))
+          console.log(window.sessionStorage.getItem("staffID"))
+          console.log(window.sessionStorage.getItem("staffEmail"))
+          console.log(window.sessionStorage.getItem("staffAddress"))         
+        }
+
 
         window.location.href = `/Home`;
   

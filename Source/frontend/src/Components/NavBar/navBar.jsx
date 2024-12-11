@@ -53,7 +53,7 @@ function NavBar() {
         </div>
         </nav>
       );
-    } else if (window.sessionStorage.getItem("role") === "SPSO") {
+    } else if (window.sessionStorage.getItem("role") === "SPSO" || window.sessionStorage.getItem("role") === "Admin") {
       return (
         <nav className="navbar">
         {/* Logo */}
@@ -64,12 +64,12 @@ function NavBar() {
         {/* Navigation links */}
         <ul className="nav-links">
           <li className="nav-item"><a href="/">Trang chủ</a></li>
-          <li className="nav-item"><a href="/Student/Print/1">In tài liệu</a></li>
-          <li className="nav-item"><a href="/Student/BuyPages/1">Mua trang in</a></li>
-          <li className="nav-item"><a href="/Student/History">Lịch sử</a></li>
+          <li className="nav-item"><a href="/SPSO/Printer">Máy in</a></li>
+          <li className="nav-item"><a href="/SPSO/System">Hệ thống</a></li>
+          <li className="nav-item"><a href="/SPSO/History">Lịch sử</a></li>
         </ul>
   
-        <a href="/Student/Info">
+        <a href="/SPSO/Info">
             <FaUser className="login-icon" />
         </a>
         <div className="bell-container">

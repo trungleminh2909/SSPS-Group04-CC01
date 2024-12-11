@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './printing.css'
-import Footer from '../../Components/Footer/footer'
-import NavBar from '../../Components/NavBar/navBar'
+import Footer from "../../../Components/Footer/footer";
+import NavBar from "../../../Components/NavBar/navBar";
 
 
 function PrintingPage2() {

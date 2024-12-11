@@ -1,0 +1,56 @@
+/* AddAccount.css */
+.add-account-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 100px;
+  text-align: center;
+  margin-bottom: 50px; /* Thêm khoảng cách dưới */
+  margin-left: 450px;
+  margin-top: -80px;
+  width: 400px;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+.account-type-selector label {
+  margin-right: 20px;
+}
+
+.account-form {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px; /* Thêm khoảng cách dưới form */
+}
+
+.account-form label {
+  margin: 10px 0;
+}
+
+.account-form input {
+  padding: 10px;
+  font-size: 16px;
+  margin-top: 5px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.save-button {
+  padding: 12px 24px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+  width: 100%; /* Đảm bảo nút "Lưu" rộng vừa phải */
+}
+
+.save-button:hover {
+  background-color: #45a049;
+}

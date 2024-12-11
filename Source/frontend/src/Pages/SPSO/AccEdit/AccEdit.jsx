@@ -1,25 +1,21 @@
 import React from "react";
 import { FaUser } from "react-icons/fa"; // Importing the user icon
-import "./Info.css";
-import Footer from "../../Components/Footer/footer";
-import NavBar from "../../Components/NavBar/navBar";
+import "./AccEdit.css";
 
-function Info() {
+function AccEdit() {
   // ví dụ
   const user = {
     name: 'Nguyễn Văn A',
-    employeeId: 'NV12345',
-    position: 'Nhân viên',
+    employeeId: '1951001',
     email: 'nguyen.vana@example.com',
-    address: 'Hà Nội, Việt Nam',
-    role: 'SPSO' // Thêm role vào dữ liệu người dùng
+    address: 'TP. HCM, Việt Nam',
+    phone: '0123456789',
+    role: 'Sinh viên' // Thêm role vào dữ liệu người dùng
   };
 
   return (
-    <>
-    <NavBar></NavBar>
     <div className="user-info-container">
-        <h1 className="info-title">HỒ SƠ NGƯỜI DÙNG</h1>
+        <h1 className="info-title">THÔNG TIN TÀI KHOẢN</h1>
         <div className="user-info">
         {/* Cột chứa biểu tượng và role */}
         <div className="user-left">
@@ -36,19 +32,17 @@ function Info() {
         {/* Cột chứa thông tin người dùng */}
         <div className="user-right">
           <h2>{user.name}</h2>
-          <p><strong>Mã số nhân viên:</strong> {user.employeeId}</p>
-          <p><strong>Chức vụ:</strong> {user.position}</p>
+          <p><strong>ID:</strong> {user.employeeId}</p>
           <p><strong>Email:</strong> {user.email}</p>
           <p><strong>Địa chỉ:</strong> {user.address}</p>
+          <p><strong>Số điện thoại:</strong> {user.phone}</p>
         </div>
       </div>
 
-      {/* Nút đăng xuất */}
-      <button className="logout-button">Đăng xuất</button>
+      {/* Nút chỉnh sửa */}
+      <button className="logout-button">Chỉnh sửa</button>
     </div>
-    <Footer></Footer>
-    </>
   );
 }
 
-export default Info;
+export default AccEdit;

@@ -5,7 +5,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Date;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,19 @@ import com.software.ssps.Services.Student.PaymentService;
 import com.software.ssps.Services.Student.PrintPropertyService;
 import com.software.ssps.Services.Student.PrintService;
 import com.software.ssps.Services.Student.StudentService;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.software.ssps.Entity.Printer;
+import com.software.ssps.Entity.Staff;
+import com.software.ssps.Entity.Student;
+import com.software.ssps.Entity.SystemSetting;
+import com.software.ssps.Entity.systemHistory;
+
+
+
+
 @CrossOrigin
 @Controller
 public class MainController {
@@ -40,10 +54,16 @@ public class MainController {
     private List<Student> studentList;
     private List<paymentHistory> paymentHistory;
     private List<printHistory> printHistory;
+    private List<Staff> staffList;
+    private List<Printer> printerList;
+    private List<systemHistory> systemHistories;
+    private SystemSetting systemSetting;
 
     // Write initializer in the Main Controller constructor
     public MainController() {
         studentList = new ArrayList<>();
+        staffList = new ArrayList<>();
+        printerList = new ArrayList<>();
         Student student1 = new Student(
                 "Nguyen Van A", // studentName
                 "2252123", // studentID
@@ -63,14 +83,28 @@ public class MainController {
                 "student2@hcmut.edu.vn", // studentEmail
                 "Ho Chi Minh", // studentAddress
                 "avatar2.png", // avatar
-                150, // pageNumber
+                100, // pageNumber
                 new ArrayList<>() // uploadedFiles (empty list for now)
         );
+        Staff staff1 = new Staff("123456", "Le Hoang", "hoang", "123456", "hoang@hcmut.edu.vn", "HCM", "hoang.png",
+                "Admin");
         studentList.add(student1);
         studentList.add(student2);
+        staffList.add(staff1);
+        staffList.add(new Staff("646551", "John Doe", "johndoe", "password123", "john@example.com", "123 Main St",
+                "avatar1.png", "SPSO"));
+        staffList.add(new Staff("468465", "Jane Smith", "janesmith", "password456", "jane@example.com", "456 Elm St",
+                "avatar2.png", "SPSO"));
+        printerList.add(new Printer("P001", "Canon", "Tòa A4", "active"));
+        printerList.add(new Printer("P002", "HP", "Tòa B2", "active"));
+        printerList.add(new Printer("P003", "Epson", "Tòa C3", "inactive"));
+        printerList.add(new Printer("P004", "Brother", "Tòa A1", "active"));
+        printerList.add(new Printer("P005", "Samsung", "Tòa B5", "inactive"));
 
+        systemSetting = new SystemSetting("1", 30, new Date(), true, true, false, true, false, true, true);
         paymentHistory = new ArrayList<>();
         printHistory = new ArrayList<>();
+        systemHistories = new ArrayList<>();
     }
 
     //////////////////// .......Hard coded data part.......////////////////////
@@ -112,14 +146,20 @@ public class MainController {
         String loginOption = request.get("loginOption");
 
         if ("SPSO".equals(loginOption)) {
-            if ("spsoUser".equals(username) && "spsoPass".equals(password)) {
-                // To do: SPSO homepage here
-                return ResponseEntity.ok(Map.of(
-                    "status", "success",
-                    "message", "SPSO login successful",
-                    "username", username,
-                    "role", "SPSO"
-                ));
+            for (Staff staff : staffList) {
+                if (staff.getUsername().equals(username) && staff.getPassword().equals(password)) {
+                    // To do: SPSO homepage here
+                    return ResponseEntity.ok(Map.of(
+                        "status", "success",
+                        "message", "SPSO login successful",
+                        "username", staff.getUsername(),
+                        "role", staff.getRole(),
+                        "ID", staff.getID(),
+                        "email", staff.getEmail(),
+                        "address", staff.getAddress(),
+                        "name", staff.getName()
+                    ));
+                }
             }
         } else if ("HCMUT".equals(loginOption)) {
             for (Student student : studentList) {
@@ -419,6 +459,185 @@ public class MainController {
             "paymentHistory", studentPaymentHistory
         ));
     }
+
+   // #region Admin
+   @GetMapping("/ssps/admin/accountList")
+   public String accountList() {
+       return "accountList";
+   }
+
+   @CrossOrigin(origins = "http://localhost:5173")
+   @GetMapping("/ssps/admin/staffAccountList")
+   @ResponseBody
+   public List<Staff> staffAccountList() {
+       return staffList;
+   }
+
+   @CrossOrigin(origins = "http://localhost:5173")
+   @GetMapping("/ssps/admin/studentAccountList")
+   @ResponseBody
+   public List<Student> studentAccountList() {
+       return studentList;
+   }
+
+   @CrossOrigin(origins = "http://localhost:5173")
+   @PostMapping("/ssps/admin/addStaff")
+   @ResponseBody
+   public String addStaff(@RequestBody Staff staff) {
+       // Staff newStaff = new Staff(name, id, username, password, email, address,
+       // avatar);
+       staffList.add(staff);
+       return "redirect:/ssps/admin/accountList";
+   }
+
+   @CrossOrigin(origins = "http://localhost:5173")
+   @PostMapping("/ssps/admin/addStudent")
+   @ResponseBody
+   public String addStudent(@RequestBody Student student) {
+       // Staff newStaff = new Staff(name, id, username, password, email, address,
+       // avatar);
+       studentList.add(student);
+       return "redirect:/ssps/admin/accountList";
+   }
+
+   @CrossOrigin(origins = "http://localhost:5173")
+   @GetMapping("/ssps/admin/staffInfo/{id}")
+   @ResponseBody
+   public Staff staffInfo(@PathVariable String id) {
+       Optional<Staff> staff = staffList.stream().filter(a -> a.getID().equals(id)).findFirst();
+       if (staff.isPresent()) {
+           return staff.get();
+       } else {
+           return null;
+       }
+   }
+
+   @CrossOrigin(origins = "http://localhost:5173")
+   @GetMapping("/ssps/admin/studentInfo/{id}")
+   @ResponseBody
+   public Student studentInfo(@PathVariable String id) {
+       Optional<Student> student = studentList.stream().filter(a -> a.getStudentID().equals(id)).findFirst();
+       if (student.isPresent()) {
+           return student.get();
+       } else {
+           return null;
+       }
+   }
+
+   @CrossOrigin(origins = "http://localhost:5173")
+   @PutMapping("/ssps/admin/updateStaff")
+   @ResponseBody
+   public String updateStaff(
+           @RequestBody Staff updateStaff) {
+       staffList.stream().filter(a -> a.getID().equals(updateStaff.getID())).findFirst().ifPresent(staff -> {
+           staff.setName(updateStaff.getName());
+           staff.setUsername(updateStaff.getUsername());
+           staff.setPassword(updateStaff.getPassword());
+           staff.setEmail(updateStaff.getEmail());
+           staff.setAddress(updateStaff.getAddress());
+           staff.setAvatar(updateStaff.getAvatar());
+       });
+       return "redirect:/ssps/admin/accountList";
+   }
+
+   @CrossOrigin(origins = "http://localhost:5173")
+   @PutMapping("/ssps/admin/updateStudent")
+   @ResponseBody
+   public String updateStudent(
+           @RequestBody Student updateStudent) {
+
+       studentList.stream().filter(a -> a.getStudentID().equals(updateStudent.getStudentID())).findFirst()
+               .ifPresent(student -> {
+                   student.setStudentName(updateStudent.getStudentName());
+                   student.setUsername(updateStudent.getUsername());
+                   student.setPassword(updateStudent.getPassword());
+                   student.setStudentEmail(updateStudent.getStudentEmail());
+                   student.setStudentAddress(updateStudent.getStudentAddress());
+                   student.setAvatar(updateStudent.getAvatar());
+                   student.setPageNumber(updateStudent.getPageNumber());
+               });
+       return "redirect:/ssps/admin/accountList";
+   }
+
+   @CrossOrigin(origins = "http://localhost:5173")
+   @DeleteMapping("/ssps/admin/deleteStaff/{id}")
+   @ResponseBody
+   public String deleteStaff(@PathVariable String id) {
+       Optional<Staff> staff = staffList.stream().filter(a -> a.getID().equals(id)).findFirst();
+       if (staff.isPresent()) {
+           staffList.removeIf(a -> a.getID().equals(id));
+           return "success";
+       }
+       return "redirect:/ssps/admin/accountList";
+   }
+
+   @CrossOrigin(origins = "http://localhost:5173")
+   @DeleteMapping("/ssps/admin/deleteStudent/{id}")
+   @ResponseBody
+   public String deleteStudent(@PathVariable String id) {
+       Optional<Student> student = studentList.stream().filter(a -> a.getStudentID().equals(id)).findFirst();
+       if (student.isPresent()) {
+           studentList.removeIf(a -> a.getStudentID().equals(id));
+           return "success";
+       }
+       return "redirect:/ssps/admin/accountList";
+   }
+
+   @CrossOrigin(origins = "http://localhost:5173")
+   @ResponseBody
+   @GetMapping("/ssps/spso/getSetting")
+   public SystemSetting getSetting() {
+       return systemSetting;
+   }
+
+   @CrossOrigin(origins = "http://localhost:5173")
+   @ResponseBody
+   @PutMapping("/ssps/spso/changeSystem")
+   public String changeSystem(@RequestBody SystemSetting newSetting) {
+       systemSetting = newSetting;
+       return "success";
+   }
+
+   // #endregion
+
+
+   // #region printer
+
+   @CrossOrigin(origins = "http://localhost:5173")
+   @GetMapping("/ssps/spso/printerList")
+   @ResponseBody
+   public List<Printer> printerList() {
+       return printerList;
+   }
+
+   @CrossOrigin(origins = "http://localhost:5173")
+   @PostMapping("/ssps/spso/addPrinter")
+   @ResponseBody
+   public Printer addPrinter(@RequestBody Printer printer) {
+       printerList.add(printer);
+       return printer;
+   }
+
+   @CrossOrigin(origins = "http://localhost:5173")
+   @PutMapping("/ssps/spso/stopPrinter/{printerID}")
+   @ResponseBody
+   public String stopPrinter(@PathVariable String printerID) {
+       printerList.stream().filter(p -> p.getPrinterID().equals(printerID)).findFirst().ifPresent(printer -> {
+           printer.setStatus("inactive");
+       });
+       return "success";
+   }
+
+   @CrossOrigin(origins = "http://localhost:5173")
+   @PutMapping("/ssps/spso/startPrinter/{printerID}")
+   @ResponseBody
+   public String startPrinter(@PathVariable String printerID) {
+       printerList.stream().filter(p -> p.getPrinterID().equals(printerID)).findFirst().ifPresent(printer -> {
+           printer.setStatus("active");
+       });
+       return "success";
+   }
+   // #endregion
     
 
 }

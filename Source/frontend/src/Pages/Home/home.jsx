@@ -8,7 +8,7 @@ function Home({ studentId }) {
 
   const Info = (isLoggedIn) => {
     console.log(isLoggedIn)
-    if (isLoggedIn == "true") {
+    if (isLoggedIn == "true" && window.sessionStorage.getItem("role") === "HCMUT") {
       return <>
       <a href='/Student/Print/1' className="home-service-card">
         <h2 >In tài liệu</h2>
@@ -21,6 +21,21 @@ function Home({ studentId }) {
       <a className="home-service-card" href='/Student/History'>
         <h2 >Lịch sử</h2>
         <p>Xem lại các đơn in và giao dịch đã thực hiện <br/>&nbsp;</p>
+      </a></>
+    }  else  if (isLoggedIn == "true" && (window.sessionStorage.getItem("role") === "SPSO" 
+    || window.sessionStorage.getItem("role") === "Admin")) {
+      return <>
+      <a href='/SPSO/Printer' className="home-service-card">
+        <h2 >Máy in</h2>
+        <p>Thêm, sửa và xoá máy in</p>
+      </a >
+      <a className="home-service-card" href='/SPSO/System'>
+        <h2 >Hệ thống</h2>
+        <p>Điều chỉnh số trang và ngày thêm trang</p>
+      </a>              
+      <a className="home-service-card" href='/SPSO/History'>
+        <h2 >Lịch sử</h2>
+        <p>Xem lại các đơn in của học sinh <br/>&nbsp;</p>
       </a></>
     } else {
       return <>

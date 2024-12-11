@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import './History.css';
-import Footer from "../../Components/Footer/footer";
-import NavBar from "../../Components/NavBar/navBar";
+import Footer from "../../../Components/Footer/footer";
+import NavBar from "../../../Components/NavBar/navBar";
 
-function PaymentHistory() {
+function PrintHistory() {
   // Mẫu dữ liệu
-
   const getCurrentDate = () => {
     const now = new Date();
     const year = now.getFullYear();
@@ -16,34 +15,33 @@ function PaymentHistory() {
   
   const [startDate, setStartDate] = useState(getCurrentDate);
   const [endDate, setEndDate] = useState(getCurrentDate);
-  const [filteredPaymentHistory, setFilteredPaymentHistory] = useState([]);
+  const [filteredPrintHistory, setFilteredPrintHistory] = useState([]);
   
-
   const handleSubmit = async () => {
     const payload = {
       "studentID": window.sessionStorage.getItem("studentID")
     }
   
     try {
-      const response = await fetch(`http://localhost:8080/ssps/${window.sessionStorage.getItem("studentID")}/payment-history`, {
+      const response = await fetch(`http://localhost:8080/ssps/${window.sessionStorage.getItem("studentID")}/print-history`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",   
         },
         body: JSON.stringify(payload),
       });
-    
+
       if (response.ok) {
         const data = await response.json();
         if (data.status === "success") {
-          // setPaymentHistoryData(data.paymentHistory);
-          const filteredData = data.paymentHistory.filter((item) => {
-            const paymentDate = new Date(item.paymentDate);
+          console.log(data.printHistory)
+          const filteredData = data.printHistory.filter((item) => {
+            const printDate = new Date(item.printDate);
             const start = new Date(startDate);
             const end = new Date(endDate);
-            return paymentDate >= start && paymentDate <= end;
+            return printDate >= start && printDate <= end;
           });
-          setFilteredPaymentHistory(filteredData);
+          setFilteredPrintHistory(filteredData);
         }
         else {
           alert("No student found")
@@ -57,30 +55,11 @@ function PaymentHistory() {
       console.log(error)
     }
   }
-
-
-
-
-
-  // const handleFilter = () => {
-  //   console.log(paymentHistoryData)
-  //   const filteredData = paymentHistoryData.filter((item) => {
-  //     const paymentDate = new Date(item.paymentDate);
-  //     const start = new Date(startDate);
-  //     const end = new Date(endDate);
-  //     console.log(paymentDate)
-  //     console.log(start)
-  //     console.log(end)
-  //     return paymentDate >= start && paymentDate <= end;
-  //   });
-  //   console.log(filteredData)
-  //   setFilteredPaymentHistory(filteredData);
-  // };
   
   useEffect(() => {
     handleSubmit();
   }, []);
-  
+
   return (
   <>
     <NavBar></NavBar>
@@ -88,10 +67,10 @@ function PaymentHistory() {
       <div>
         <table className="history-title-table">
           <tr>
-            <button className="notSelected" onClick={() => {window.location.href = "/Student/History"}}>
+            <button className="selected" onClick={() => {window.location.href = "/Student/History"}}>
               <th>LỊCH SỬ IN</th>
             </button>
-            <button className="selected" onClick={() => {window.location.href = "/Student/History/Payment"}}>
+            <button className="notSelected" onClick={() => {window.location.href = "/Student/History/Payment"}}>
               <th>LỊCH SỬ THANH TOÁN</th>
             </button>
           </tr>
@@ -124,22 +103,20 @@ function PaymentHistory() {
       <table className="history-table">
         <thead>
           <tr>
-            <th>Mã đơn</th>
-            <th>Ngaỳ thực hiện</th>
-            <th>Số trang</th>
-            <th>Số tiền thanh toán</th>
+            <th>Mã đơn in</th>
+            <th>Tên tài liệu</th>
+            <th>Ngày thực hiện</th>
             <th>Trạng thái</th>
             <th>Ghi chú</th>
           </tr>
         </thead>
         <tbody>
-          {filteredPaymentHistory.map((item, index) => (
+          {filteredPrintHistory.map((item, index) => (
             <tr key={index}>
-              <td>{item.paymentID}</td>
-              <td>{item.paymentDate}</td>
-              <td>{item.pageBought}</td>
-              <td>{item.paymentAmount}</td>
-              <td>{item.paymentStatus}</td>
+              <td>{item.printID}</td>
+              <td>{item.fileName}</td>
+              <td>{item.printDate}</td>
+              <td>{item.printStatus}</td>
               <td>{item.note}</td>
             </tr>
           ))}
@@ -151,4 +128,4 @@ function PaymentHistory() {
   );
 }
 
-export default PaymentHistory;
+export default PrintHistory;
