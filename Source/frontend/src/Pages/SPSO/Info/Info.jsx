@@ -3,11 +3,10 @@ import { FaUser } from "react-icons/fa"; // Importing the user icon
 import "./Info.css";
 
 function SPSOInfo() {
-    const user = JSON.parse(localStorage.getItem('user'))
     const [staff, setStaff] = useState ([]);
     
     const fetchUser = async () =>{
-        const id = user.id;
+        const id = window.sessionStorage.getItem('staffID');
         try{
             const response = await fetch(`http://localhost:8080/ssps/admin/staffInfo/${id}`,{
                 method: 'GET'

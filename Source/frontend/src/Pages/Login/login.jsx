@@ -46,7 +46,7 @@ function Login() {
           window.sessionStorage.setItem("pageNumber", data.pageNumber)
           window.sessionStorage.setItem("studentName", data.studentName) 
         } else {
-          window.sessionStorage.setItem("staffID", data.ID);
+          window.sessionStorage.setItem("staffID", data.id);
           window.sessionStorage.setItem("staffEmail", data.email)
           window.sessionStorage.setItem("staffAddress", data.address)
           window.sessionStorage.setItem("staffName", data.name)
