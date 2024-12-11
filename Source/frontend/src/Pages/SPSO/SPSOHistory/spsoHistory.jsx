@@ -33,10 +33,10 @@ function SPSOHistory() {
           // setPaymentHistoryData(data.paymentHistory);
         const data = await response.json();
         const filteredData = data.filter((item) => {
-        const paymentDate = new Date(item.paymentDate);
+        const printDate = new Date(item.printDate);
         const start = new Date(startDate);
         const end = new Date(endDate);
-        return printDate >= start && paymentDate <= end;
+        return printDate >= start && printDate <= end;
           });
         setFilteredPrintHistory(filteredData);
         }
