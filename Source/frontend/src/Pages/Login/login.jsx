@@ -86,7 +86,7 @@ function Login() {
             <label
               htmlFor="loginOption"
               style={{ marginRight: "8px", fontSize: "30px", width: "5cm" }}>
-              Login Option
+              Loại tài khoản
             </label>
             <select
               name="loginOption"
@@ -104,12 +104,12 @@ function Login() {
               htmlFor="username"
               style={{ marginRight: "8px", fontSize: "30px", width: "5cm" }}
             >
-              Username
+              Tên tài khoản
             </label>
             <input
               type="text"
               className="username"
-              placeholder="Username"
+              placeholder="Tên tài khoản"
               name="username"
               value={username}
               onChange={handleUsernameChange}
@@ -121,12 +121,12 @@ function Login() {
               htmlFor="password"
               style={{ marginRight: "8px", fontSize: "30px", width: "5cm" }}
             >
-              Password
+              Mật khẩu
             </label>
             <input
               type="password"
               className="username"
-              placeholder="Password"
+              placeholder="Mật khẩu"
               name="password"
               value={password}
               onChange={handlePasswordChange}

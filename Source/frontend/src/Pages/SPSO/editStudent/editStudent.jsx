@@ -85,19 +85,19 @@ const EditStudent = () => {
       <h2>Cập nhật thông tin sinh viên</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="studentName">Student Name:</label>
+          <label htmlFor="studentName">Tên Sinh Viên:</label>
           <input type="text" id="studentName" name="studentName" value={student.studentName} onChange={handleChange} required />
         </div>
         <div className="form-group">
-          <label htmlFor="studentID">Student ID:</label>
+          <label htmlFor="studentID">Mã số sinh viên:</label>
           <input type="text" id="studentID" name="studentID" value={student.studentID} onChange={handleChange} required readOnly />
         </div>
         <div className="form-group">
-          <label htmlFor="username">Username:</label>
+          <label htmlFor="username">Tên tài khoản:</label>
           <input type="text" id="username" name="username" value={student.username} onChange={handleChange} required />
         </div>
         <div className="form-group">
-          <label htmlFor="password">Password:</label>
+          <label htmlFor="password">Mật khẩu:</label>
           <input type="password" id="password" name="password" value={student.password} onChange={handleChange} required />
         </div>
         <div className="form-group">
@@ -105,15 +105,15 @@ const EditStudent = () => {
           <input type="email" id="studentEmail" name="studentEmail" value={student.studentEmail} onChange={handleChange} required />
         </div>
         <div className="form-group">
-          <label htmlFor="studentAddress">Address:</label>
+          <label htmlFor="studentAddress">Địa chỉ:</label>
           <input type="text" id="studentAddress" name="studentAddress" value={student.studentAddress} onChange={handleChange} required />
         </div>
         <div className="form-group">
-          <label htmlFor="avatar">Avatar URL:</label>
+          <label htmlFor="avatar">Avatar:</label>
           <input type="text" id="avatar" name="avatar" value={student.avatar} onChange={handleChange} />
         </div>
         <div className="form-group">
-          <label htmlFor="avatar">Page Number:</label>
+          <label htmlFor="avatar">Số lượng trang:</label>
           <input type='number' id="pageNumber" name="pageNumber" value={student.pageNumber} onChange={handleChange} />
         </div>
         <div className="form-group">
