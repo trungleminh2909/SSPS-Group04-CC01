@@ -17,27 +17,27 @@
     margin-bottom: 20px;
   }
   
-  table {
+  .printer-list table {
     width: 100%;
     border-collapse: collapse;
   }
   
-  th, td {
+  .printer-list th, .printer-list td {
     padding: 12px;
     text-align: center;
     border: 1px solid #ddd;
   }
   
-  th {
+  .printer-list th {
     background-color: #f4f4f4;
   }
   
-  tbody tr:hover {
+  .printer-list tbody tr:hover {
     background-color: #f1f1f1;
   }
   
   /* Nút "Dừng" */
-  button {
+  .printer-list button {
     padding: 8px 16px;
     background-color: red;
     color: white;
@@ -46,7 +46,7 @@
     cursor: pointer;
   }
   
-  button:hover {
+  .printer-list button:hover {
     background-color: darkred;
   }
 /* Các phần khác trong Printer.css */

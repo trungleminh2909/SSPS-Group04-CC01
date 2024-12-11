@@ -17,8 +17,8 @@ import BuyPages2 from "./Pages/Student/StudentBuyPages/buypage_2";
 import BuyPages3 from "./Pages/Student/StudentBuyPages/buypage_3";
 import Printer from "./Pages/SPSO/Printer/Printer";
 import Setting from "./Pages/SPSO/Setting/Setting";
-
 import SPSOInfo from './Pages/SPSO/Info/Info';
+import SPSOHistory from './Pages/SPSO/SPSOHistory/spsoHistory';
 
 function App() {
   localStorage.removeItem("isLoggedIn")
@@ -44,7 +44,7 @@ function App() {
             <Route path="/Student/BuyPages/1" element={<BuyPages1 />} />
             <Route path="/Student/BuyPages/2" element={<BuyPages2 />} />
             <Route path="/Student/BuyPages/3" element={<BuyPages3 />} />
-            <Route path="/SPSO/History" element={<BuyPages3 />} />
+            <Route path="/SPSO/History" element={<SPSOHistory />} />
             <Route path="/SPSO/Printer" element={<Printer />} />
             <Route path="/SPSO/System" element={<Setting />} />
           </Routes>
