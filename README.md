@@ -1,6 +1,7 @@
 # SSPS-Group04-CC01
 ## Introduction
 The Student Smart Printing Service (SSPS) is developed in order to streamline document printing for students on the Hochiminh University of Technology campus (HCMUT). This innovative service aims to provide a convenient, efficient, and user-friendly solution, which enables students to print their documents seamlessly, saves time and enhances productivity in their academic journey.
+**Note:** Due to some problem occur while merging branches, the project is currently in branch `Updata-Source`.
 ## Contributor
 1.	Lê Minh Trung – 2252854
 2.	Lê Hồng Anh Hoàng – 2211078
